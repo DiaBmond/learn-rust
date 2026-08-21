@@ -1,9 +1,0 @@
-[workspace]
-resolver = "2"
-members = ["phase-01-core"]
-
-[workspace.lints.rust]
-unsafe_code = "forbid"
-
-[workspace.lints.clippy]
-pedantic = "warn"
