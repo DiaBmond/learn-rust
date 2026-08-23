@@ -5,6 +5,8 @@ I'm learning Rust by following [The Rust Programming Language](https://doc.rust-
 ## Glossary
 ### Crate
 A crate is a unit of compilation in Rust. For example, `src/main.rs` is the crate root of a binary crate. A crate can contain multiple modules, which may be spread across multiple files. A package can contain multiple binary crates.
+### Associated function
+A function that belongs to a type and is called using `::`, for example, `String::new()`.
 
 ## Notes & Issues
 For `02_hello_cargo`, I ran: 
