@@ -8,6 +8,10 @@ A crate is a unit of compilation in Rust. For example, `src/main.rs` is the crat
 ### Associated function
 A function that belongs to a type and is called using `::`, for example, `String::new()`.
 
+## Concepts
+In `03_variable_mutability`, I wondered why Rust has both immutable variables (`let x = ...`) and constants (`const X: Type = ...`) when neither can be changed.
+- A constant is a fixed value known at compile time, while an immutable variable holds value that cannot be changed after it is initialized.
+
 ## Notes & Issues
 For `02_hello_cargo`, I ran: 
 ```bash
