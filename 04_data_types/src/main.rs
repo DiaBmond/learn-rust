@@ -1,3 +1,5 @@
+use std::io;
+
 fn main() {
     /* Scalar Types */
     // Signed integer types: -(2^(n-1)) to (2^(n-1))-1
@@ -37,4 +39,44 @@ fn main() {
     println!("Signed isize MAX:{}", isize::MAX); // 9223372036854775807 Architecture-dependent (64-bit on my machine)
     println!("Unsigned usize MIN:{}", usize::MIN); // 0
     println!("Unsigned usize MAX:{}", usize::MAX); // 18446744073709551615 Architecture-dependent (64-bit on my machine)
+
+    // let x = 1000; // type inference
+    // let x: u16 = 1000; // type annotation
+    // let x = 1000u16; // type suffix
+
+    // Integer Literals
+    let x = 10_000; // `_` is a visual separator
+    println!("{x}");
+
+    let x = 0xff; // hexadecimal (base 16)
+    println!("{x}");
+
+    let x = 0o77; // octal (base 8)
+    println!("{x}");
+
+    let x = 0b1110_0001; // binary (base 2)
+    println!("{x}");
+
+    let x = b'A'; // byte literal, type `u8`
+    println!("{x}");
+
+    // Overflow
+    // Compile-time overflow error
+    // let x: u8 = 255;
+    // let y = x + 1;
+    // println!("{y}");
+
+    // Runtime overflow
+    // Default dev profile: input 255 -> panics
+    // Default release profile: input 255 -> wraps to 0
+    let mut input = String::new();
+    io::stdin()
+        .read_line(&mut input)
+        .expect("Failed to read line");
+
+    let x: u8 = input.trim().parse().expect("Please type a number");
+
+    let y = x + 1;
+
+    println!("{y}");
 }
