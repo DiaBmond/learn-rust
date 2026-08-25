@@ -61,7 +61,7 @@ fn main() {
     println!("{x}");
 
     // Overflow
-    // Compile-time overflow error
+    // Compile-time overflow
     // let x: u8 = 255;
     // let y = x + 1;
     // println!("{y}");
@@ -79,4 +79,54 @@ fn main() {
     let y = x + 1;
 
     println!("{y}");
+
+    // Floating-Point Types
+    println!("Floating-Point Types");
+    let x = 2.0; // f64
+    println!("{x}");
+
+    let x: f32 = 3.0; // f32
+    println!("{x}");
+
+    // Numeric Operations
+    println!("Numeric Operations");
+
+    // addition
+    let x = 5 + 10;
+    println!("{x}");
+
+    // subtraction
+    let x = 95.5 - 4.3;
+    println!("{x}");
+
+    // multiplication
+    let x = 4 * 30;
+    println!("{x}");
+
+    // division
+    let x = 56.7 / 32.2;
+    println!("{x}");
+
+    let x = -5 / 3; // integer division truncates toward zero
+    println!("{x}");
+
+    // remainder
+    let x = 43 % 5;
+    println!("{x}");
+
+    // The Boolean Type
+    println!("The Boolean Type");
+    let x = true;
+    println!("{x}");
+
+    let x: bool = false; // explicit type annotation
+    println!("{x}");
+
+    // The Character Type
+    println!("The Character Type");
+    let x: char = 'ℤ'; // explicit type annotation
+    println!("{x}");
+
+    let x = '😻';
+    println!("{x}");
 }
