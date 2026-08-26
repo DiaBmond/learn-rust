@@ -129,4 +129,63 @@ fn main() {
 
     let x = '😻';
     println!("{x}");
+
+    /* Compound Types */
+    // The Tuple Type
+    let tup: (i32, f64, u8) = (500, 6.4, 1);
+    let (x, y, z) = tup;
+    println!("x: {x}, y: {y}, z: {z}");
+    let five_hundred = tup.0;
+    println!("tup.0: {five_hundred}");
+    let six_point_four = tup.1;
+    println!("tup.1: {six_point_four}");
+    let one = tup.2;
+    println!("tup.2: {one}");
+
+    // The Array Type
+    let arr = [1, 2, 3, 4, 5];
+    println!("arr[0]: {}", arr[0]);
+    println!("arr[1]: {}", arr[1]);
+
+    let months = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+    ];
+    println!("First month: {}", months[0]);
+
+    // Explicit type and length
+    let a: [i32; 5] = [1, 2, 3, 4, 5];
+    println!("{:?}", a);
+
+    let a = [3; 5]; // [value; length]
+    println!("{:?}", a); // [3, 3, 3, 3, 3]
+
+    println!("Please enter an array index.");
+
+    let mut index = String::new();
+
+    ////////////////////////////////////////////
+    io::stdin()
+        .read_line(&mut index)
+        .expect("Failed to read line");
+
+    let index: usize = index
+        .trim()
+        .parse()
+        .expect("Index entered was not a number");
+
+    // Invalid array element access can panic at runtime
+    let element = arr[index];
+
+    println!("The value of the element at index {index} is: {element}");
 }
