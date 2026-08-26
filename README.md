@@ -7,6 +7,10 @@ I'm learning Rust by following [The Rust Programming Language](https://doc.rust-
 A crate is a unit of compilation in Rust. For example, `src/main.rs` is the crate root of a binary crate. A crate can contain multiple modules, which may be spread across multiple files. A package can contain multiple binary crates.
 ### Associated function
 A function that belongs to a type and is called using `::`, for example, `String::new()`.
+### Statement
+A statement is an instructions that perform some action and do not return a value.
+### Expression
+An expression evaluate to a resultant value.
 
 ## Concepts
 In `03_variable_mutability`, I wondered why Rust has both immutable variables (`let x = ...`) and constants (`const X: Type = ...`) when neither can be changed.
