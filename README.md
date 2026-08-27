@@ -11,6 +11,8 @@ A function that belongs to a type and is called using `::`, for example, `String
 A statement is an instructions that perform some action and do not return a value.
 ### Expression
 An expression evaluate to a resultant value.
+### Unit Type
+The unit type `()` represents the absence of a meaningful value. A function that does not return a meaningful value implicitly returns `()`.
 
 ## Concepts
 In `03_variable_mutability`, I wondered why Rust has both immutable variables (`let x = ...`) and constants (`const X: Type = ...`) when neither can be changed.
