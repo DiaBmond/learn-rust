@@ -8,6 +8,8 @@ fn main() {
     println!("Prime: {}", is_prime(number));
     println!("Divisible by 3: {}", is_divisible_3(number));
     println!("Divisible by 5: {}", is_divisible_5(number));
+    println!("Square: {}", square(number));
+    println!("Sum from 1 to {number}: {}", sum_to(number));
 }
 
 fn read_positive_integer() -> u32 {
@@ -54,4 +56,16 @@ fn is_divisible_3(number: u32) -> bool {
 
 fn is_divisible_5(number: u32) -> bool {
     number % 5 == 0
+}
+
+fn square(number: u32) -> u32 {
+    number * number
+}
+
+fn sum_to(number: u32) -> u32 {
+    let mut sum = 0;
+    for index in 1..=number {
+        sum += index;
+    }
+    sum
 }
