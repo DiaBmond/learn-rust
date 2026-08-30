@@ -13,6 +13,10 @@ A statement is an instructions that perform some action and do not return a valu
 An expression evaluate to a resultant value.
 ### Unit Type
 The unit type `()` represents the absence of a meaningful value. A function that does not return a meaningful value implicitly returns `()`.
+### Stack
+A region of memory that stores values in last-in, first-out (LIFO) order. Data stored on the stack has a known, fixed size.
+### Heap
+A region of memory used for dynamically allocated data. Data on the heap is accessed through a pointer.
 
 ## Concepts
 In `03_variable_mutability`, I wondered why Rust has both immutable variables (`let x = ...`) and constants (`const X: Type = ...`) when neither can be changed.
