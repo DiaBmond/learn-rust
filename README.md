@@ -25,6 +25,18 @@ In `03_variable_mutability`, I wondered why Rust has both immutable variables (`
 - Each value in Rust has an owner.
 - There can be only one owner at a time.
 - When the owner goes out of scope, the value is dropped.
+### Move into an Inner Scope
+When ownership is moved from a variable into another variable inside an inner scope, the original variable does not regain ownership when the inner scope ends.
+```rust
+let x = String::from("hello");
+
+{
+    let y = x; // ownership moves from `x` to `y`
+    println!("{y}");
+} // `y` goes out of scope and the String is dropped
+
+// println!("{x}"); // Error: `x` no longer owns the String
+```
 
 ## Notes & Issues
 For `02_hello_cargo`, I ran: 
