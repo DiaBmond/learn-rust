@@ -8,9 +8,9 @@ A crate is a unit of compilation in Rust. For example, `src/main.rs` is the crat
 ### Associated function
 A function that belongs to a type and is called using `::`, for example, `String::new()`.
 ### Statement
-A statement is an instructions that perform some action and do not return a value.
+A statement is an instruction that performs some action and does not return a value.
 ### Expression
-An expression evaluate to a resultant value.
+An expression evaluates to a value.
 ### Unit Type
 The unit type `()` represents the absence of a meaningful value. A function that does not return a meaningful value implicitly returns `()`.
 ### Stack
@@ -20,12 +20,11 @@ A region of memory used for dynamically allocated data. Data on the heap is acce
 
 ## Concepts
 In `03_variable_mutability`, I wondered why Rust has both immutable variables (`let x = ...`) and constants (`const X: Type = ...`) when neither can be changed.
-- A constant is a fixed value known at compile time, while an immutable variable holds value that cannot be changed after it is initialized.
-### Ownership 
-Rules
-- Each valuein rust has an owner.
-- There can only be one owner at a time.
-- When the owner goes out of scope, the value will be dropped.
+- A constant is a fixed value known at compile time, while an immutable variable holds a value that cannot be changed after it is initialized.
+### Ownership Rules
+- Each value in Rust has an owner.
+- There can be only one owner at a time.
+- When the owner goes out of scope, the value is dropped.
 
 ## Notes & Issues
 For `02_hello_cargo`, I ran: 
