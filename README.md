@@ -37,6 +37,22 @@ let x = String::from("hello");
 
 // println!("{x}"); // Error: `x` no longer owns the String
 ```
+### Borrowing Different Parts of the Same Value
+I wondered whether an immutable slice and a mutable slice could exist at the same time if they refer to different parts of the same value.
+
+```rust
+let mut s = String::from("abcdef");
+
+let a = &s[0..3];
+let b = &mut s[4..6];
+
+println!("{a}");
+println!("{b}");
+```
+
+Even though the two ranges do not overlap, this does not compile. With normal slice indexing, Rust treats the borrows as overlapping and rejects them.
+
+Conceptually, borrowing separate, non-overlapping parts can be safe, but Rust must be able to prove that the borrows do not overlap.
 
 ## Notes & Issues
 For `02_hello_cargo`, I ran: 
