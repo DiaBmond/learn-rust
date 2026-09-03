@@ -2,7 +2,7 @@ use std::io;
 
 fn main() {
     println!("== Start Text Toolkit ==");
-
+    println!("Please enter text:");
     let mut text = read_text();
 
     loop {
@@ -25,11 +25,7 @@ fn main() {
             println!("Enter 0 to exit");
             println!("Your choice:");
 
-            let mut choice = String::new();
-
-            io::stdin()
-                .read_line(&mut choice)
-                .expect("Failed to read line");
+            let choice = read_text();
 
             let choice: u8 = match choice.trim().parse() {
                 Ok(num) => num,
@@ -52,8 +48,6 @@ fn main() {
 }
 
 fn read_text() -> String {
-    println!("Please enter text:");
-
     let mut text = String::new();
 
     io::stdin()
