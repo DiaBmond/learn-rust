@@ -4,9 +4,11 @@ fn main() {
     println!("== Start Text Toolkit ==");
     println!("Please enter text:");
     let mut text = read_text();
+    let original_text = text.clone();
 
     loop {
         println!("Input is: {text}");
+        println!("Original is: {original_text}");
         println!("First word is: {}", find_first_word(&text));
         println!("Last word is: {}", find_last_word(&text));
 
