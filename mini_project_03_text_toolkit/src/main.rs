@@ -3,19 +3,52 @@ use std::io;
 fn main() {
     println!("== Start Text Toolkit ==");
 
-    let text = read_text();
-    let text = text.trim();
+    let mut text = read_text();
 
-    println!("Input is: {text}");
-    println!("First word is: {}", find_first_word(text));
-    println!("Last word is: {}", find_last_word(text));
+    loop {
+        let trimmed = text.trim();
 
-    let (chars, spaces, words, length) = count_text_stats(text);
+        println!("Input is: {trimmed}");
+        println!("First word is: {}", find_first_word(trimmed));
+        println!("Last word is: {}", find_last_word(trimmed));
 
-    println!("Characters: {chars}");
-    println!("Spaces: {spaces}");
-    println!("Words: {words}");
-    println!("Length: {length}");
+        let (chars, spaces, words, length) = count_text_stats(trimmed);
+
+        println!("Characters: {chars}");
+        println!("Spaces: {spaces}");
+        println!("Words: {words}");
+        println!("Length: {length}");
+
+        let state: u8 = loop {
+            println!("== Choose Next Step ==");
+            println!("Enter 1 to edit text");
+            println!("Enter 0 to exit");
+            println!("Your choice:");
+
+            let mut choice = String::new();
+
+            io::stdin()
+                .read_line(&mut choice)
+                .expect("Failed to read line");
+
+            let choice: u8 = match choice.trim().parse() {
+                Ok(num) => num,
+                Err(_) => continue,
+            };
+
+            if choice == 0 || choice == 1 {
+                break choice;
+            }
+        };
+
+        if state == 1 {
+            println!("*** Edit text");
+            continue;
+        } else {
+            println!("*** Exit");
+            break;
+        }
+    }
 }
 
 fn read_text() -> String {
