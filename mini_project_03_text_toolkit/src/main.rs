@@ -6,19 +6,18 @@ fn main() {
     let mut text = read_text();
 
     loop {
-        let trimmed = text.trim();
+        println!("Input is: {text}");
+        println!("First word is: {}", find_first_word(&text));
+        println!("Last word is: {}", find_last_word(&text));
 
-        println!("Input is: {trimmed}");
-        println!("First word is: {}", find_first_word(trimmed));
-        println!("Last word is: {}", find_last_word(trimmed));
-
-        let (chars, spaces, words, length) = count_text_stats(trimmed);
+        let (chars, spaces, words, length) = count_text_stats(&text);
 
         println!("Characters: {chars}");
         println!("Spaces: {spaces}");
         println!("Words: {words}");
         println!("Length: {length}");
 
+        println!();
         let state: u8 = loop {
             println!("== Choose Next Step ==");
             println!("Enter 1 to edit text");
@@ -38,7 +37,7 @@ fn main() {
         };
 
         if state == 1 {
-            println!("*** Edit text");
+            edit_mode(&mut text);
             continue;
         } else {
             println!("*** Exit");
@@ -54,7 +53,7 @@ fn read_text() -> String {
         .read_line(&mut text)
         .expect("Failed to read line");
 
-    text
+    text.trim().to_string()
 }
 
 fn find_first_word(text: &str) -> &str {
@@ -103,4 +102,56 @@ fn count_text_stats(text: &str) -> (u32, u32, u32, u32) {
     let words = spaces + 1;
 
     (chars, spaces, words, length)
+}
+
+fn edit_mode(text: &mut String) {
+    println!("*** Edit Mode");
+
+    let state = loop {
+        println!("== Choose Edit Tool ==");
+        println!("Enter 1 to add a word");
+        println!("Enter 2 to delete the last word");
+        println!("Your choice:");
+
+        let choice = read_text();
+
+        let choice: u8 = match choice.parse() {
+            Ok(num) => num,
+            Err(_) => continue,
+        };
+
+        if choice == 1 || choice == 2 {
+            break choice;
+        }
+
+        println!("Please choose again.");
+    };
+
+    if state == 1 {
+        println!("Enter a new word:");
+
+        let new_word = read_text();
+
+        text.push_str(" ");
+        text.push_str(&new_word);
+        println!("**************");
+        println!();
+    } else if state == 2 {
+        let bytes = text.as_bytes();
+        let mut position = 0;
+
+        for (i, &item) in bytes.iter().enumerate().rev() {
+            if item == b' ' {
+                position = i;
+                break;
+            }
+        }
+
+        let new_text = String::from(&text[..position]);
+
+        text.clear();
+        text.push_str(&new_text);
+        println!("**************");
+        println!();
+    }
 }
