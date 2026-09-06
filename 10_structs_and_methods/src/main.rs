@@ -8,6 +8,9 @@ struct User {
 // Tuple Structs
 struct Color(i32, i32, i32);
 
+// Unit-like struct
+struct AlwaysEqual;
+
 fn main() {
     let mut user1 = build_user(
         "someusername123".to_string(),
@@ -22,11 +25,16 @@ fn main() {
 
     let user2 = build_user_from_existing(user1, "new@example.com".to_string());
 
-    println!("user2 email: {}, username: {}", user2.email, user2.username);
+    println!(
+        "user2 email: {}, username: {}, active: {}, sign in count: {}",
+        user2.email, user2.username, user2.active, user2.sign_in_count
+    );
 
     // Tuple Structs
     let black = Color(0, 0, 0);
     println!("Black color values: {}, {}, {}", black.0, black.1, black.2);
+
+    let _subject = AlwaysEqual;
 }
 
 fn build_user(email: String, username: String) -> User {
