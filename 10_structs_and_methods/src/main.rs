@@ -39,6 +39,21 @@ fn main() {
     example_program_v1();
     example_program_v2();
     example_program_v3();
+
+    let rect1 = Rectangle {
+        width: 30,
+        height: 50,
+    };
+
+    println!("rect1 is {rect1:?}");
+
+    let scale = 2;
+    let rect2 = Rectangle {
+        width: dbg!(30 * scale),
+        height: 50,
+    };
+
+    dbg!(&rect2);
 }
 
 fn build_user(email: String, username: String) -> User {
@@ -81,6 +96,7 @@ fn area_v2(dimensions: (u32, u32)) -> u32 {
     dimensions.0 * dimensions.1
 }
 
+#[derive(Debug)]
 struct Rectangle {
     width: u32,
     height: u32,
