@@ -35,6 +35,10 @@ fn main() {
     println!("Black color values: {}, {}, {}", black.0, black.1, black.2);
 
     let _subject = AlwaysEqual;
+
+    example_program_v1();
+    example_program_v2();
+    example_program_v3();
 }
 
 fn build_user(email: String, username: String) -> User {
@@ -48,4 +52,53 @@ fn build_user(email: String, username: String) -> User {
 
 fn build_user_from_existing(user: User, email: String) -> User {
     User { email, ..user }
+}
+
+fn example_program_v1() {
+    let width1 = 30;
+    let height1 = 50;
+
+    println!(
+        "The area of the rectangle is {} square pixels.",
+        area_v1(width1, height1)
+    );
+}
+
+fn area_v1(width: u32, height: u32) -> u32 {
+    width * height
+}
+
+fn example_program_v2() {
+    let rect1 = (30, 50);
+
+    println!(
+        "The area of the rectangle is {} square pixels.",
+        area_v2(rect1)
+    );
+}
+
+fn area_v2(dimensions: (u32, u32)) -> u32 {
+    dimensions.0 * dimensions.1
+}
+
+struct Rectangle {
+    width: u32,
+    height: u32,
+}
+
+fn example_program_v3() {
+    let rect1 = Rectangle {
+        width: 30,
+        height: 50,
+    };
+
+    println!(
+        "The area of the rectangle is {} square pixels.",
+        area_v3(&rect1)
+    );
+}
+
+fn area_v3(rectangle: &Rectangle) -> u32 {
+    // Borrow the Rectangle because ownership is not needed.
+    rectangle.width * rectangle.height
 }
