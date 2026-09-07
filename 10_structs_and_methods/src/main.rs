@@ -17,6 +17,34 @@ struct Color(i32, i32, i32);
 // Unit-Like Struct
 struct AlwaysEqual;
 
+// == Rectangle Implementation ==
+
+impl Rectangle {
+    // Method: `self` refers to the instance before the `.`.
+    fn area(&self) -> u32 {
+        self.width * self.height
+    }
+
+    // Method that checks whether the width is nonzero.
+    fn width(&self) -> bool {
+        self.width > 0
+    }
+
+    // Method with another `Rectangle` parameter.
+    fn can_hold(&self, other: &Rectangle) -> bool {
+        self.width > other.width && self.height > other.height
+    }
+
+    // Associated function: no `self` parameter.
+    // `Self` refers to `Rectangle` inside `impl Rectangle`.
+    fn square(size: u32) -> Self {
+        Self {
+            width: size,
+            height: size,
+        }
+    }
+}
+
 fn main() {
     user_struct_example();
     tuple_struct_example();
@@ -27,6 +55,9 @@ fn main() {
     rectangle_with_struct();
 
     debug_output_example();
+
+    methods_example();
+    associated_function_example();
 }
 
 // == User Struct ==
@@ -167,11 +198,60 @@ fn debug_output_example() {
     let scale = 2;
 
     let rect2 = Rectangle {
-        width: dbg!(30 * scale), // prints the expression and returns its value
+        width: dbg!(30 * scale), // Prints the expression and returns its value.
         height: 50,
     };
 
-    dbg!(&rect2); // prints debug information without taking ownership
+    dbg!(&rect2); // Borrows `rect2` so `dbg!` does not take ownership.
+
+    println!();
+}
+
+// == Methods ==
+
+fn methods_example() {
+    println!("== Methods ==");
+
+    let rect1 = Rectangle {
+        width: 30,
+        height: 50,
+    };
+
+    let rect2 = Rectangle {
+        width: 10,
+        height: 40,
+    };
+
+    let rect3 = Rectangle {
+        width: 60,
+        height: 45,
+    };
+
+    println!(
+        "The area of the rectangle is {} square pixels.",
+        rect1.area()
+    );
+
+    if rect1.width() {
+        println!("The rectangle has a nonzero width; it is {}.", rect1.width);
+    }
+
+    println!("Can rect1 hold rect2? {}", rect1.can_hold(&rect2));
+    println!("Can rect1 hold rect3? {}", rect1.can_hold(&rect3));
+
+    println!();
+}
+
+// == Associated Function ==
+
+fn associated_function_example() {
+    println!("== Associated Function ==");
+
+    // `square` has no `self`, so call it with `Rectangle::square`.
+    let square = Rectangle::square(20);
+
+    println!("Square is {square:?}");
+    println!("Square area is {}", square.area());
 
     println!();
 }
