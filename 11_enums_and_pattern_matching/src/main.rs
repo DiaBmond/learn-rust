@@ -30,6 +30,7 @@ fn main() {
     basic_enum_example();
     enum_with_data_example();
     message_enum_example();
+    option_example();
 }
 
 // == Basic Enum ==
@@ -80,6 +81,20 @@ fn message_enum_example() {
     // Enum values can use methods defined in an `impl` block.
     quit.call();
     write_message.call();
+
+    println!();
+}
+
+// == Option Enum ==
+fn option_example() {
+    println!("== Option Enum ==");
+
+    let _some_number = Some(5);
+    let _some_char = Some('e');
+
+    // `None` has no value for Rust to infer the type from,
+    // so the Option type must be specified.
+    let _absent_number: Option<i32> = None;
 
     println!();
 }
