@@ -50,28 +50,29 @@ mod text {
     }
 
     mod edit {
-        use std::io;
-
-        fn read_text() -> String {
-            let mut text = String::new();
-
-            io::stdin()
-                .read_line(&mut text)
-                .expect("Failed to read line");
-
-            text.trim().to_string()
-        }
 
         fn add_word(text: &mut String) {
             println!("Enter a new word:");
 
-            let new_word = read_text();
+            let new_word = super::read_text();
 
             text.push_str(" ");
             text.push_str(&new_word);
             println!("**************");
             println!();
         }
+    }
+
+    use std::io;
+
+    fn read_text() -> String {
+        let mut text = String::new();
+
+        io::stdin()
+            .read_line(&mut text)
+            .expect("Failed to read line");
+
+        text.trim().to_string()
     }
 }
 
