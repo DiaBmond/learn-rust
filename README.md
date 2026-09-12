@@ -204,6 +204,11 @@ A useful rule of thumb:
 - `if let` -> "If it matches, do this."
 - `let...else` -> "It must match, otherwise leave."
 
+### `pub` with Structs vs Enums
+
+- `pub struct` does not make its fields public; fields need their own `pub`.
+- `pub enum` makes all of its variants public automatically.
+
 ## Notes & Issues
 
 For `02_hello_cargo`, I ran:
