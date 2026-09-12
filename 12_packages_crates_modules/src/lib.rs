@@ -1,6 +1,6 @@
 mod text {
-    mod analyze {
-        fn find_first_word(text: &str) -> &str {
+    pub mod analyze {
+        pub fn find_first_word(text: &str) -> &str {
             let bytes = text.as_bytes();
 
             for (i, &item) in bytes.iter().enumerate() {
@@ -12,7 +12,7 @@ mod text {
             &text[..]
         }
 
-        fn find_last_word(text: &str) -> &str {
+        pub fn find_last_word(text: &str) -> &str {
             let bytes = text.as_bytes();
 
             for (i, &item) in bytes.iter().enumerate().rev() {
@@ -73,4 +73,12 @@ mod text {
             println!();
         }
     }
+}
+
+pub fn analyze_text(text: &str) {
+    // Absolute path
+    crate::text::analyze::find_first_word(text);
+
+    // Relative path
+    text::analyze::find_last_word(text);
 }
