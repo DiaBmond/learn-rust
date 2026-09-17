@@ -78,6 +78,10 @@ A method is a function defined inside an `impl` block that takes `self`, `&self`
 
 Pattern matching compares a value against patterns and can destructure data stored inside enums and other types.
 
+### Module
+
+A module organizes related code inside a crate. Modules can be nested and can be defined in separate files.
+
 ## Concepts
 
 ### Constants vs Immutable Variables
@@ -208,6 +212,11 @@ A useful rule of thumb:
 
 - `pub struct` does not make its fields public; fields need their own `pub`.
 - `pub enum` makes all of its variants public automatically.
+
+### `mod` vs `use`
+
+- `mod` declares or defines a module.
+- `use` brings a path into scope so it can be referenced more conveniently.
 
 ## Notes & Issues
 
