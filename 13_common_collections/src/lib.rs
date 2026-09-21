@@ -1,46 +1,38 @@
-pub fn learn_vector(number: Option<i32>) -> Option<i32> {
-    let Some(number) = number else {
-        return None;
-    };
+mod vector;
+use crate::vector::*;
 
-    // let v: Vec<i32> = Vec::new();
-    // let v = vec![1, 2, 3];
-    let mut v = Vec::new();
-    // v.push(5);
-    // v.push(6);
-    // v.push(7);
-    // v.push(8);
-    v.push(number);
+enum Learn {
+    BasicVector,
+    ReadingVector,
+}
 
-    let one: &i32 = &v[0];
-    println!("The first element is {one}");
-
-    let one: Option<&i32> = v.get(0);
-
-    match one {
-        Some(one) => println!("The first element is {one}"),
-        None => println!("There is no first element."),
+pub fn learn_vector(learn: Learn) -> Option<T> {
+    match learn {
+        BasicVector => {
+            let number 7 ;
+            basic_vector(Some(number));}
+        ReadingVector => {
+            reading_vectors();
+        }
     }
-
-    one.copied()
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
 
-    #[test]
-    fn it_correct() {
-        let number = 7;
-        let result = learn_vector(Some(number));
+    // #[test]
+    // fn it_correct() {
+    //     let number = 7;
+    //     let result = learn_vector(Some(number));
 
-        assert_eq!(result, Some(7));
-    }
+    //     assert_eq!(result, Some(7));
+    // }
 
-    #[test]
-    fn it_fail() {
-        let result = learn_vector(None);
+    // #[test]
+    // fn it_fail() {
+    //     let result = learn_vector(None);
 
-        assert_eq!(result, None);
-    }
+    //     assert_eq!(result, None);
+    // }
 }
