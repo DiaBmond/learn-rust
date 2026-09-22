@@ -1,5 +1,5 @@
-pub fn basic_vector(number: Option<i32>) -> Option<i32> {
-    //Basic vector
+pub fn basic_vector(number: Option<i32>) -> Option<String> {
+    // Basic vector
     let Some(number) = number else {
         return None;
     };
@@ -18,26 +18,45 @@ pub fn basic_vector(number: Option<i32>) -> Option<i32> {
 
     let one: Option<&i32> = v.get(0);
 
+    let result: Option<String>;
+
     match one {
-        Some(one) => println!("The first element is {one}"),
-        None => println!("There is no first element."),
+        Some(one) => {
+            result = Some(format!("The first element is {one}"));
+        }
+        None => {
+            result = Some(String::from("There is no first element."));
+        }
     }
 
-    one.copied()
+    result
 }
 
-pub fn reading_vectors() {
+pub fn reading_vectors() -> Option<String> {
     let v = vec![1, 2, 3, 4, 5];
 
-    let _does_not_exist = &v[100];
+    // This would panic because index 100 doesn't exist.
+    // let _does_not_exist = &v[100];
+
+    // get() safely returns None instead.
     let _does_not_exist = v.get(100);
 
     let third: &i32 = &v[2];
     println!("The third element is {third}");
 
-    let third: Option<&i32> = v.get(2);
-    match third {
-        Some(third) => println!("The third element is {third}"),
-        None => println!("There is no third element."),
+    // get() safely returns None instead.
+    let hundredth: Option<&i32> = v.get(99);
+
+    let result: Option<String>;
+
+    match hundredth {
+        Some(hundredth) => {
+            result = Some(format!("The third element is {hundredth}"));
+        }
+        None => {
+            result = Some(String::from("There is no hundredth element."));
+        }
     }
+
+    result
 }

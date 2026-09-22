@@ -1,18 +1,20 @@
 mod vector;
+
 use crate::vector::*;
 
-enum Learn {
+pub enum Learn {
     BasicVector,
     ReadingVector,
 }
 
-pub fn learn_vector(learn: Learn) -> Option<T> {
+pub fn learn_vector(learn: Learn) -> Option<String> {
     match learn {
-        BasicVector => {
-            let number 7 ;
-            basic_vector(Some(number));}
-        ReadingVector => {
-            reading_vectors();
+        Learn::BasicVector => {
+            let number = 7;
+            return basic_vector(Some(number));
+        }
+        Learn::ReadingVector => {
+            return reading_vectors();
         }
     }
 }
@@ -21,18 +23,17 @@ pub fn learn_vector(learn: Learn) -> Option<T> {
 mod tests {
     use super::*;
 
-    // #[test]
-    // fn it_correct() {
-    //     let number = 7;
-    //     let result = learn_vector(Some(number));
+    #[test]
+    fn learn_basic_vector() {
+        let result = learn_vector(Learn::BasicVector);
 
-    //     assert_eq!(result, Some(7));
-    // }
+        assert_eq!(result, Some(String::from("The first element is 7")));
+    }
 
-    // #[test]
-    // fn it_fail() {
-    //     let result = learn_vector(None);
+    #[test]
+    fn learn_reading_vector() {
+        let result = learn_vector(Learn::ReadingVector);
 
-    //     assert_eq!(result, None);
-    // }
+        assert_eq!(result, Some(String::from("There is no hundredth element.")));
+    }
 }
