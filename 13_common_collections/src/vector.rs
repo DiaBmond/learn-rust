@@ -74,3 +74,19 @@ pub fn owner_with_vector() -> Option<String> {
 
     Some(format!("Vector length is {}", v.len()))
 }
+
+pub fn iterating_over_vector() -> Option<String> {
+    let v1 = vec![100, 32, 57];
+    for i in &v1 {
+        println!("{i}");
+    }
+
+    let mut v2 = vec![100, 32, 57];
+    for i in &mut v2 {
+        *i += 50;
+    }
+    Some(format!(
+        "Values in v1: [{}, {}, {}] Values in v2: [{}, {}, {}]",
+        v1[0], v1[1], v1[2], v2[0], v2[1], v2[2]
+    ))
+}

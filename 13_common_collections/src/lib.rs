@@ -6,6 +6,7 @@ pub enum Learn {
     BasicVector,
     ReadingVector,
     OwnerVector,
+    IteratingVector,
 }
 
 pub fn learn_vector(learn: Learn) -> Option<String> {
@@ -19,6 +20,9 @@ pub fn learn_vector(learn: Learn) -> Option<String> {
         }
         Learn::OwnerVector => {
             return owner_with_vector();
+        }
+        Learn::IteratingVector => {
+            return iterating_over_vector();
         }
     }
 }
@@ -46,5 +50,17 @@ mod tests {
         let result = learn_vector(Learn::OwnerVector);
 
         assert_eq!(result, Some(String::from("Vector length is 6")));
+    }
+
+    #[test]
+    fn learn_iterating_over_vector() {
+        let result = learn_vector(Learn::IteratingVector);
+
+        assert_eq!(
+            result,
+            Some(String::from(
+                "Values in v1: [100, 32, 57] Values in v2: [150, 82, 107]"
+            ))
+        );
     }
 }
