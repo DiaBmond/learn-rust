@@ -5,6 +5,7 @@ use crate::vector::*;
 pub enum Learn {
     BasicVector,
     ReadingVector,
+    OwnerVector,
 }
 
 pub fn learn_vector(learn: Learn) -> Option<String> {
@@ -15,6 +16,9 @@ pub fn learn_vector(learn: Learn) -> Option<String> {
         }
         Learn::ReadingVector => {
             return reading_vectors();
+        }
+        Learn::OwnerVector => {
+            return owner_with_vector();
         }
     }
 }
@@ -35,5 +39,12 @@ mod tests {
         let result = learn_vector(Learn::ReadingVector);
 
         assert_eq!(result, Some(String::from("There is no hundredth element.")));
+    }
+
+    #[test]
+    fn learn_owner_vector() {
+        let result = learn_vector(Learn::OwnerVector);
+
+        assert_eq!(result, Some(String::from("Vector length is 6")));
     }
 }

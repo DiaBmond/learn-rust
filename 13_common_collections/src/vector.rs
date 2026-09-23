@@ -60,3 +60,17 @@ pub fn reading_vectors() -> Option<String> {
 
     result
 }
+
+pub fn owner_with_vector() -> Option<String> {
+    let mut v = vec![1, 2, 3, 4, 5];
+
+    let _first = &v[0];
+
+    v.push(6);
+
+    // println!("The first element is {_first}");
+    // Does not compile because `first` is still borrowed
+    // when `v.push(6)` needs a mutable borrow.
+
+    Some(format!("Vector length is {}", v.len()))
+}
