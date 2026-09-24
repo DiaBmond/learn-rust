@@ -218,6 +218,23 @@ A useful rule of thumb:
 - `mod` declares or defines a module.
 - `use` brings a path into scope so it can be referenced more conveniently.
 
+### Accessing Vector Elements
+
+- `&v[index]` returns `&T` and panics if the index is out of bounds.
+- `v.get(index)` returns `Option<&T>` and returns `None` if the index is out of bounds.
+
+### Borrowing and Growing a Vector
+
+`push` may reallocate a vector and move its elements, so Rust prevents mutation while a reference to an element is still in use.
+
+A borrow can end after its last use; it does not always last until the end of the scope.
+
+### Using Enums with Vectors
+
+A vector stores values of one type. An enum can wrap different kinds of data into a single type.
+
+For example, `Vec<SpreadsheetCell>` can contain `Int(i32)`, `Float(f64)`, and `Text(String)` variants while every element is still a `SpreadsheetCell`.
+
 ## Notes & Issues
 
 For `02_hello_cargo`, I ran:
