@@ -90,3 +90,29 @@ pub fn iterating_over_vector() -> Option<String> {
         v1[0], v1[1], v1[2], v2[0], v2[1], v2[2]
     ))
 }
+
+enum SpreadsheetCell {
+    Int(i32),
+    Float(f64),
+    Text(String),
+}
+
+pub fn enum_with_vector() -> Option<String> {
+    let row = vec![
+        SpreadsheetCell::Int(3),
+        SpreadsheetCell::Text(String::from("blue")),
+        SpreadsheetCell::Float(10.12),
+    ];
+
+    let mut text = String::new();
+
+    for cell in &row {
+        match cell {
+            SpreadsheetCell::Int(value) => text.push_str(&format!("Int:{value} ")),
+            SpreadsheetCell::Float(value) => text.push_str(&format!("Float:{value} ")),
+            SpreadsheetCell::Text(value) => text.push_str(&format!("Text:{value} ")),
+        }
+    }
+
+    Some(text)
+}

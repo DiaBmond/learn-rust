@@ -7,6 +7,7 @@ pub enum Learn {
     ReadingVector,
     OwnerVector,
     IteratingVector,
+    EnumVector,
 }
 
 pub fn learn_vector(learn: Learn) -> Option<String> {
@@ -23,6 +24,9 @@ pub fn learn_vector(learn: Learn) -> Option<String> {
         }
         Learn::IteratingVector => {
             return iterating_over_vector();
+        }
+        Learn::EnumVector => {
+            return enum_with_vector();
         }
     }
 }
@@ -62,5 +66,12 @@ mod tests {
                 "Values in v1: [100, 32, 57] Values in v2: [150, 82, 107]"
             ))
         );
+    }
+
+    #[test]
+    fn learn_enum_with_vector() {
+        let result = learn_vector(Learn::EnumVector);
+
+        assert_eq!(result, Some(String::from("Int:3 Text:blue Float:10.12 ")));
     }
 }
