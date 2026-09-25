@@ -1,8 +1,10 @@
+mod string;
 mod vector;
 
+use crate::string::*;
 use crate::vector::*;
 
-pub enum Learn {
+pub enum LearnVector {
     BasicVector,
     ReadingVector,
     OwnerVector,
@@ -10,22 +12,26 @@ pub enum Learn {
     EnumVector,
 }
 
-pub fn learn_vector(learn: Learn) -> Option<String> {
+pub enum LearnString {
+    BasicString,
+}
+
+pub fn learn_vector(learn: LearnVector) -> Option<String> {
     match learn {
-        Learn::BasicVector => {
+        LearnVector::BasicVector => {
             let number = 7;
             return basic_vector(Some(number));
         }
-        Learn::ReadingVector => {
+        LearnVector::ReadingVector => {
             return reading_vectors();
         }
-        Learn::OwnerVector => {
+        LearnVector::OwnerVector => {
             return owner_with_vector();
         }
-        Learn::IteratingVector => {
+        LearnVector::IteratingVector => {
             return iterating_over_vector();
         }
-        Learn::EnumVector => {
+        LearnVector::EnumVector => {
             return enum_with_vector();
         }
     }
@@ -37,28 +43,28 @@ mod tests {
 
     #[test]
     fn learn_basic_vector() {
-        let result = learn_vector(Learn::BasicVector);
+        let result = learn_vector(LearnVector::BasicVector);
 
         assert_eq!(result, Some(String::from("The first element is 7")));
     }
 
     #[test]
     fn learn_reading_vector() {
-        let result = learn_vector(Learn::ReadingVector);
+        let result = learn_vector(LearnVector::ReadingVector);
 
         assert_eq!(result, Some(String::from("There is no hundredth element.")));
     }
 
     #[test]
     fn learn_owner_vector() {
-        let result = learn_vector(Learn::OwnerVector);
+        let result = learn_vector(LearnVector::OwnerVector);
 
         assert_eq!(result, Some(String::from("Vector length is 6")));
     }
 
     #[test]
     fn learn_iterating_over_vector() {
-        let result = learn_vector(Learn::IteratingVector);
+        let result = learn_vector(LearnVector::IteratingVector);
 
         assert_eq!(
             result,
@@ -70,7 +76,7 @@ mod tests {
 
     #[test]
     fn learn_enum_with_vector() {
-        let result = learn_vector(Learn::EnumVector);
+        let result = learn_vector(LearnVector::EnumVector);
 
         assert_eq!(result, Some(String::from("Int:3 Text:blue Float:10.12 ")));
     }
