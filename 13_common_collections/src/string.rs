@@ -1,11 +1,15 @@
 pub enum LearnString {
     BasicString,
+    UpdateString,
 }
 
 pub fn learn_string(learn: LearnString) -> Option<String> {
     match learn {
         LearnString::BasicString => {
             return basic_string();
+        }
+        LearnString::UpdateString => {
+            return update_string();
         }
     }
 }
@@ -29,6 +33,22 @@ pub fn basic_string() -> Option<String> {
     ))
 }
 
+pub fn update_string() -> Option<String> {
+    let mut s1 = String::from("Learning ");
+    let s2 = "Rust is fu";
+    s1.push_str(s2);
+
+    s1.push('n');
+
+    let s3 = String::from(" and useful");
+    let s4 = s1 + &s3;
+
+    let s5 = String::from("Keep practicing");
+    let s6 = String::from("Keep learning");
+
+    Some(format!("{s4} - {s5} - {s6}"))
+}
+
 #[cfg(test)]
 mod tests_string {
     use super::*;
@@ -41,6 +61,18 @@ mod tests_string {
             result,
             Some(String::from(
                 "Empty: '', Variable: 'initial contents', Literal: 'initial contents', From: 'initial contents', Thai: 'สวัสดี', Japanese: 'こんにちは', Chinese: '你好'"
+            ))
+        );
+    }
+
+    #[test]
+    fn learn_update_string() {
+        let result = learn_string(LearnString::UpdateString);
+
+        assert_eq!(
+            result,
+            Some(String::from(
+                "Learning Rust is fun and useful - Keep practicing - Keep learning"
             ))
         );
     }
