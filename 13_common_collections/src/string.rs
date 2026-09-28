@@ -1,6 +1,7 @@
 pub enum LearnString {
     BasicString,
     UpdateString,
+    IndexingString,
 }
 
 pub fn learn_string(learn: LearnString) -> Option<String> {
@@ -10,6 +11,9 @@ pub fn learn_string(learn: LearnString) -> Option<String> {
         }
         LearnString::UpdateString => {
             return update_string();
+        }
+        LearnString::IndexingString => {
+            return indexing_string();
         }
     }
 }
@@ -49,6 +53,26 @@ pub fn update_string() -> Option<String> {
     Some(format!("{s4} - {s5} - {s6}"))
 }
 
+pub fn indexing_string() -> Option<String> {
+    let hello = "Здравствуйте";
+
+    let slice = &hello[0..4];
+    // let slice = &hello[0..1]; // panic
+
+    let mut chars = String::from("Chars: ");
+    for c in "Зд".chars() {
+        chars.push(c);
+    }
+
+    let mut bytes = String::from("Bytes:");
+
+    for b in "Зд".bytes() {
+        bytes.push_str(&format!(" {b}"));
+    }
+
+    Some(format!("Slice: {slice} | {chars} | {bytes}"))
+}
+
 #[cfg(test)]
 mod tests_string {
     use super::*;
@@ -73,6 +97,18 @@ mod tests_string {
             result,
             Some(String::from(
                 "Learning Rust is fun and useful - Keep practicing - Keep learning"
+            ))
+        );
+    }
+
+    #[test]
+    fn learn_indexing_string() {
+        let result = learn_string(LearnString::IndexingString);
+
+        assert_eq!(
+            result,
+            Some(String::from(
+                "Slice: Зд | Chars: Зд | Bytes: 208 151 208 180"
             ))
         );
     }
