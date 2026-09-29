@@ -18,14 +18,9 @@ pub fn basic_hash_map() -> Option<String> {
     scores.insert(String::from("Blue"), 10);
     scores.insert(String::from("Yellow"), 50);
 
-    // Get a value using a key
+    // Get the initial score using a key
     let team_name = String::from("Blue");
     let initial_score = scores.get(&team_name).copied().unwrap_or(0);
-
-    // Read all key-value pairs
-    for (team, score) in &scores {
-        println!("{team}: {score}");
-    }
 
     // Overwrite an existing value
     let team_to_update = String::from("Blue");
@@ -38,7 +33,28 @@ pub fn basic_hash_map() -> Option<String> {
 
     let updated_score = scores.get(&team_name).copied().unwrap_or(0);
 
-    Some(format!("Blue score: {initial_score} -> {updated_score}"))
+    // Insert a value only if the key does not exist
+    scores.entry(String::from("Yellow")).or_insert(70);
+    scores.entry(String::from("Red")).or_insert(20);
+
+    // Update values based on their existing values
+    let team_names = "Green Orange Blue Gray";
+
+    for team in team_names.split_whitespace() {
+        let score = scores.entry(team.to_string()).or_insert(0);
+        *score += 1;
+    }
+
+    // Read all key-value pairs
+    for (team, score) in &scores {
+        println!("{team}: {score}");
+    }
+
+    let final_score = scores.get(&team_name).copied().unwrap_or(0);
+
+    Some(format!(
+        "Blue score: {initial_score} -> {updated_score} -> {final_score}"
+    ))
 }
 
 #[cfg(test)]
@@ -49,6 +65,6 @@ mod tests_hash_map {
     fn learn_basic_hash_map() {
         let result = learn_hash_map(LearnHashMap::BasicHashMap);
 
-        assert_eq!(result, Some(String::from("Blue score: 10 -> 60")));
+        assert_eq!(result, Some(String::from("Blue score: 10 -> 60 -> 61")));
     }
 }
