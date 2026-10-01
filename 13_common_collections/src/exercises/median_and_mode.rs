@@ -14,6 +14,10 @@ pub fn median_and_mode(numbers: Option<Vec<i32>>) -> (Option<f64>, Option<Vec<i3
 }
 
 fn median(numbers: &mut Vec<i32>) -> Option<f64> {
+    if numbers.is_empty() {
+        return None;
+    }
+
     numbers.sort();
     if numbers.len() % 2 == 0 {
         let middle_sum = numbers[numbers.len() / 2] + numbers[(numbers.len() / 2) - 1];
@@ -53,4 +57,37 @@ fn modes(numbers: &Vec<i32>) -> Option<Vec<i32>> {
     modes.sort();
 
     Some(modes)
+}
+
+#[cfg(test)]
+mod unit_tests_exercises_1 {
+    use super::*;
+
+    mod median {
+        use super::*;
+
+        #[test]
+        fn empty_vec_returns_none() {
+            let mut empty_input = vec![];
+            assert_eq!(median(&mut empty_input), None);
+        }
+
+        #[test]
+        fn even_length_returns_average_of_middle_two() {
+            let mut even_length_input = vec![4, 1, 3, 2];
+            assert_eq!(median(&mut even_length_input), Some(2.5));
+        }
+
+        #[test]
+        fn odd_length_returns_middle() {
+            let mut odd_length_input = vec![2, 3, 1, 7, 5, 9, 10];
+            assert_eq!(median(&mut odd_length_input), Some(5.0));
+        }
+
+        #[test]
+        fn negative_numbers_handled_correctly() {
+            let mut negative_input = vec![-2, -3, 1, -7, 5];
+            assert_eq!(median(&mut negative_input), Some(-2.0));
+        }
+    }
 }
