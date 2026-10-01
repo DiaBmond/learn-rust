@@ -1,3 +1,5 @@
 mod employee_directory;
 mod median_and_mode;
 mod pig_latin;
+
+pub use median_and_mode::median_and_mode;
