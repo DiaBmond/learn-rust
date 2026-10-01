@@ -90,4 +90,44 @@ mod unit_tests_exercises_1 {
             assert_eq!(median(&mut negative_input), Some(-2.0));
         }
     }
+
+    mod modes {
+        use super::*;
+
+        #[test]
+        fn empty_vec_returns_none() {
+            let empty_input = vec![];
+            assert_eq!(modes(&empty_input), None);
+        }
+
+        #[test]
+        fn single_mode_returns_one_value() {
+            let single_mode = vec![4, 1, 1, 3, 2];
+            assert_eq!(modes(&single_mode), Some(vec![1]));
+        }
+
+        #[test]
+        fn two_modes_return_two_values() {
+            let two_modes = vec![4, 1, 1, 3, 3, 2];
+            assert_eq!(modes(&two_modes), Some(vec![1, 3]));
+        }
+
+        #[test]
+        fn all_unique_values_return_none() {
+            let unique_values = vec![4, 1, 3, 2];
+            assert_eq!(modes(&unique_values), None);
+        }
+
+        #[test]
+        fn single_element_returns_none() {
+            let single_element = vec![5];
+            assert_eq!(modes(&single_element), None);
+        }
+
+        #[test]
+        fn all_identical_elements_return_that_element() {
+            let all_same = vec![7, 7, 7, 7];
+            assert_eq!(modes(&all_same), Some(vec![7]));
+        }
+    }
 }
