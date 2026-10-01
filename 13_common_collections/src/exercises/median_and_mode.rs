@@ -131,3 +131,25 @@ mod unit_tests_exercises_1 {
         }
     }
 }
+
+#[cfg(test)]
+mod integration_test_exercises_1 {
+    use super::*;
+
+    #[test]
+    fn typical_user_workflow() {
+        let input = Some(vec![7, 1, 3, 4]);
+        assert_eq!(median_and_mode(input), (Some(3.5), None));
+    }
+
+    #[test]
+    fn empty_input_workflow() {
+        let empty_input = Some(vec![]);
+        assert_eq!(median_and_mode(empty_input), (None, None));
+    }
+
+    #[test]
+    fn none_input_workflow() {
+        assert_eq!(median_and_mode(None), (None, None));
+    }
+}
