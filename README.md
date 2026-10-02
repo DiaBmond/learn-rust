@@ -217,6 +217,7 @@ A useful rule of thumb:
 
 - `mod` declares or defines a module.
 - `use` brings a path into scope so it can be referenced more conveniently.
+- `pub use` brings an item into scope and re-exports it as part of the public API.
 
 ### Accessing Vector Elements
 
@@ -234,6 +235,39 @@ A borrow can end after its last use; it does not always last until the end of th
 A vector stores values of one type. An enum can wrap different kinds of data into a single type.
 
 For example, `Vec<SpreadsheetCell>` can contain `Int(i32)`, `Float(f64)`, and `Text(String)` variants while every element is still a `SpreadsheetCell`.
+
+### Dereferencing
+
+`*` accesses the value that a reference points to.
+
+```rust
+let mut number = 10;
+let reference = &mut number;
+
+*reference += 1;
+```
+
+### Strings and UTF-8
+
+Rust strings are UTF-8 encoded.
+
+- `String::len()` returns the number of bytes.
+- Strings cannot be indexed with `s[index]`.
+- String slices use byte ranges and must be on valid character boundaries.
+- `.chars()` iterates over characters, while `.bytes()` iterates over bytes.
+
+### Updating HashMap Values with `entry`
+
+`entry(key).or_insert(value)` inserts a value if the key is missing and returns a mutable reference to the stored value.
+
+```rust
+let count = map.entry(key).or_insert(0);
+*count += 1;
+```
+
+### HashMap Iteration Order
+
+A `HashMap` does not guarantee iteration order. If deterministic ordering is needed, collect the values and sort them separately.
 
 ## Notes & Issues
 
