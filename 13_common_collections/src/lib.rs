@@ -5,6 +5,7 @@ mod vector;
 
 pub use crate::exercises::median_and_mode;
 pub use crate::exercises::pig_latin;
+pub use crate::exercises::{Department, Employee, EmployeeDirectory};
 
 pub use crate::hashmap::{LearnHashMap, learn_hash_map};
 pub use crate::string::{LearnString, learn_string};
