@@ -269,6 +269,13 @@ let count = map.entry(key).or_insert(0);
 
 A `HashMap` does not guarantee iteration order. If deterministic ordering is needed, collect the values and sort them separately.
 
+### Error Handling
+
+Rust separates errors into two main categories:
+
+- Recoverable errors can be handled using `Result<T, E>`.
+- Unrecoverable errors stop normal execution using `panic!`.
+
 ## Notes & Issues
 
 For `02_hello_cargo`, I ran:
