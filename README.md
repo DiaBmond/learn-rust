@@ -82,6 +82,12 @@ Pattern matching compares a value against patterns and can destructure data stor
 
 A module organizes related code inside a crate. Modules can be nested and can be defined in separate files.
 
+### Generic Type Parameter
+
+A placeholder for a concrete type, such as `T` in `Point<T>`.
+
+Generics allow functions, structs, enums, and methods to work with different types without duplicating code.
+
 ## Concepts
 
 ### Constants vs Immutable Variables
@@ -308,6 +314,32 @@ An invariant is a condition that must always remain true.
 A custom type can protect an invariant by keeping its fields private and validating values during construction.
 
 For example, a `Guess` type can ensure that its value is always between 1 and 100, so other functions do not need to repeat the same validation.
+
+### Generic Types and Methods
+
+Generics allow the same code to work with different concrete types.
+
+- `Point<T>` requires `x` and `y` to have the same type.
+- `Point<X, Y>` allows `x` and `y` to have different types.
+- `impl<T> Point<T>` defines methods available for every `Point<T>`.
+- `impl Point<f32>` defines methods available only for `Point<f32>`.
+
+Generic functions can also use trait bounds to require specific behavior from a type, such as `T: PartialOrd` for comparisons.
+
+### Monomorphization
+
+Rust uses monomorphization to generate specialized code for concrete types at compile time.
+
+For example, calling `largest<T>()` with `i32` and `char` creates specialized versions for each type.
+
+Conceptually:
+
+- `largest::<i32>()` -> specialized for `i32`
+- `largest::<char>()` -> specialized for `char`
+
+This avoids runtime type checks for generic type parameters and provides performance comparable to writing separate functions manually.
+
+The compiler may further optimize or inline the generated code. Monomorphization can increase compilation time and binary size.
 
 ## Notes & Issues
 
