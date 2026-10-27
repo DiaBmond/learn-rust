@@ -79,3 +79,11 @@ pub fn notify_both<T: Summary + std::fmt::Display>(item: &T) {
     println!("Display: {item}");
     println!("Summary: {}", item.summarize());
 }
+
+pub fn notify_both_where<T>(item: &T)
+where
+    T: Summary + std::fmt::Display,
+{
+    println!("Display: {item}");
+    println!("Summary: {}", item.summarize());
+}

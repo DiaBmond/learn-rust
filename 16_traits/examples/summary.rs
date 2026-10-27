@@ -1,6 +1,6 @@
 use traits::{NewsArticle, SocialPost, Summary};
 use traits::{
-    notify_both, notify_use_generic_one_para, notify_use_generic_two_para,
+    notify_both, notify_both_where, notify_use_generic_one_para, notify_use_generic_two_para,
     notify_use_impl_one_para, notify_use_impl_two_para,
 };
 
@@ -33,4 +33,5 @@ fn main() {
     // notify_use_generic_two_para(&post, &article); // not compile error  use impl is para do have para must same type
     notify_use_generic_two_para(&post, &post);
     notify_both(&String::from("user01"));
+    notify_both_where(&String::from("mon"));
 }
