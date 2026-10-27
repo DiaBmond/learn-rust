@@ -1,4 +1,8 @@
 use traits::{NewsArticle, SocialPost, Summary};
+use traits::{
+    notify_use_generic_one_para, notify_use_generic_two_para, notify_use_impl_one_para,
+    notify_use_impl_two_para,
+};
 
 fn main() {
     let post = SocialPost {
@@ -21,4 +25,11 @@ fn main() {
     };
 
     println!("New article available! {}", article.summarize());
+
+    notify_use_generic_one_para(&post);
+    notify_use_impl_one_para(&article);
+
+    notify_use_impl_two_para(&post, &article);
+    // notify_use_generic_two_para(&post, &article); // not compile error  use impl is para do have para must same type
+    notify_use_generic_two_para(&post, &post)
 }

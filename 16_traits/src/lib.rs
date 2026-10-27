@@ -49,3 +49,21 @@ impl Summary for SocialPost {
         format!("@{}", self.username)
     }
 }
+
+pub fn notify_use_impl_one_para(item: &impl Summary) {
+    println!("Breaking news! {}", item.summarize());
+}
+
+pub fn notify_use_generic_one_para<T: Summary>(item: &T) {
+    println!("Breaking news! {}", item.summarize());
+}
+
+pub fn notify_use_generic_two_para<T: Summary>(item1: &T, item2: &T) {
+    println!("Breaking news! {}", item1.summarize());
+    println!("Breaking news! {}", item2.summarize());
+}
+
+pub fn notify_use_impl_two_para(item1: &impl Summary, item2: &impl Summary) {
+    println!("Breaking news! {}", item1.summarize());
+    println!("Breaking news! {}", item2.summarize());
+}
