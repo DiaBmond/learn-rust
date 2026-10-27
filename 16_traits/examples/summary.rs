@@ -1,7 +1,8 @@
 use traits::{NewsArticle, SocialPost, Summary};
 use traits::{
     notify_both, notify_both_where, notify_use_generic_one_para, notify_use_generic_two_para,
-    notify_use_impl_one_para, notify_use_impl_two_para,
+    notify_use_impl_one_para, notify_use_impl_two_para, returns_summarizable,
+    returns_summarizable_with_switch,
 };
 
 fn main() {
@@ -34,4 +35,11 @@ fn main() {
     notify_use_generic_two_para(&post, &post);
     notify_both(&String::from("user01"));
     notify_both_where(&String::from("mon"));
+
+    let result = returns_summarizable();
+
+    println!("{}", result.summarize());
+
+    let post = returns_summarizable_with_switch(true);
+    println!("{}", post.summarize());
 }
