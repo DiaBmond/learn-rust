@@ -88,6 +88,22 @@ A placeholder for a concrete type, such as `T` in `Point<T>`.
 
 Generics allow functions, structs, enums, and methods to work with different types without duplicating code.
 
+### Trait
+
+A trait defines shared behavior through methods. A type implements a trait using `impl Trait for Type`.
+
+### Trait Bound
+
+A constraint that requires a type to implement a specific trait.
+
+For example, `T: Summary` allows generic code to use methods defined by `Summary`.
+
+### Blanket Implementation
+
+A trait implementation that applies to every type satisfying certain trait bounds.
+
+For example, `impl<T: Display> Describe for T` implements `Describe` for all types that implement `Display`.
+
 ## Concepts
 
 ### Constants vs Immutable Variables
@@ -340,6 +356,56 @@ Conceptually:
 This avoids runtime type checks for generic type parameters and provides performance comparable to writing separate functions manually.
 
 The compiler may further optimize or inline the generated code. Monomorphization can increase compilation time and binary size.
+
+### Required and Default Trait Methods
+
+A trait method without a body must be implemented by each type.
+
+A trait method with a body provides a default implementation that can be overridden.
+
+A default method can call required methods from the same trait.
+
+### `impl Trait` vs Generic Type Parameters
+
+Both `&impl Summary` and `&T` with `T: Summary` accept values that implement `Summary`.
+
+The difference becomes important with multiple parameters:
+
+- Two `&impl Summary` parameters can have different concrete types.
+- Two `&T` parameters sharing the same `T` must have the same concrete type.
+
+### Multiple Trait Bounds and `where`
+
+A generic type can require multiple traits using `+`.
+
+For example, `T: Summary + Display` requires both traits.
+
+A `where` clause expresses the same constraints and can make complex bounds easier to read.
+
+### Returning `impl Trait`
+
+A function returning `impl Summary` hides its concrete return type while guaranteeing that it implements `Summary`.
+
+All return paths must use the same concrete type, even if multiple types implement the trait.
+
+### Conditionally Implementing Methods
+
+Methods can be available only when a generic type satisfies specific trait bounds.
+
+- `impl<T> Pair<T>` defines methods available for every `Pair<T>`.
+- `impl<T: Display + PartialOrd> Pair<T>` defines methods available only when `T` implements both traits.
+
+A type can still use methods whose bounds it satisfies, even if other methods are unavailable.
+
+### Blanket Implementations
+
+A blanket implementation implements a trait for all types that satisfy a constraint.
+
+For example, `impl<T: Display> Describe for T` makes `describe()` available to every type implementing `Display`.
+
+The standard library uses the same idea to provide `ToString` for types implementing `Display`.
+
+Unlike conditional methods, a blanket implementation implements a trait for many different types.
 
 ## Notes & Issues
 
