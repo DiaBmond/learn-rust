@@ -20,6 +20,7 @@ This repository contains my Rust exercises and learning notes.
 - [Chapter 8: Common Collections](docs/08-collections.md)
 - [Chapter 9: Error Handling](docs/09-error-handling.md)
 - [Chapter 10: Generics, Traits, and Lifetimes](docs/10-generics-traits-lifetimes.md)
+- [Chapter 11: Writing Automated Tests](docs/11-writing-automated-tests.md)
 - [Notes & Issues](docs/notes-and-issues.md)
 
 ## Exercises
