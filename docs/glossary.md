@@ -99,3 +99,35 @@ For example, `T: Summary` allows generic code to use methods defined by `Summary
 A trait implementation that applies to every type satisfying certain trait bounds.
 
 For example, `impl<T: Display> Describe for T` implements `Describe` for all types that implement `Display`.
+
+## Borrow Checker
+
+The part of the Rust compiler that enforces borrowing and lifetime rules to ensure references are valid.
+
+## Dangling Reference
+
+A reference that points to data that is no longer valid. Rust's borrow checker prevents code from using dangling references.
+
+## Lifetime
+
+The period during which a reference is valid. Rust often infers lifetimes automatically.
+
+## Generic Lifetime Parameter
+
+A named lifetime parameter, such as `'a`, used to express relationships between references in functions, structs, and methods.
+
+## Lifetime Annotation
+
+Syntax such as `'a` that expresses lifetime constraints between references.
+
+Lifetime annotations do not change how long values live.
+
+## Lifetime Elision
+
+A set of rules that allows the compiler to infer lifetime relationships in function and method signatures without explicit annotations.
+
+## `'static` Lifetime
+
+A lifetime that can last for the entire duration of a program.
+
+String literals have the type `&'static str`. A variable holding a `'static` reference does not itself need to remain in scope for the entire program.
