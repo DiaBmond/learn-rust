@@ -3,7 +3,11 @@ pub fn add(left: u64, right: u64) -> u64 {
 }
 
 pub fn add_two(value: u64) -> u64 {
-    value + 2
+    internal_adder(value, 2)
+}
+
+fn internal_adder(left: u64, right: u64) -> u64 {
+    left + right
 }
 
 pub fn greeting(name: &str) -> String {
@@ -48,16 +52,16 @@ impl Guess {
     }
 }
 
-fn prints_and_returns_10(value: i32) -> i32 {
-    println!("I got the value {value}");
-    10
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
     use std::thread;
     use std::time::Duration;
+
+    fn prints_and_returns_10(value: i32) -> i32 {
+        println!("I got the value {value}");
+        10
+    }
 
     // ============================================================
     // Chapter 11.1: How to Write Tests
@@ -368,5 +372,18 @@ mod tests {
         let value = prints_and_returns_10(8);
 
         assert_eq!(value, 5);
+    }
+
+    // ============================================================
+    // Chapter 11.3: Test Organization
+    // ============================================================
+
+    // Testing private functions
+
+    #[test]
+    fn internal() {
+        let result = internal_adder(2, 2);
+
+        assert_eq!(result, 4);
     }
 }
