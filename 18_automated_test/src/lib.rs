@@ -14,24 +14,6 @@ pub fn greeting(name: &str) -> String {
     format!("Hello {name}!")
 }
 
-#[derive(Debug)]
-struct Rectangle {
-    width: u32,
-    height: u32,
-}
-
-impl Rectangle {
-    fn can_hold(&self, other: &Rectangle) -> bool {
-        self.width > other.width && self.height > other.height
-    }
-}
-
-#[derive(Debug, PartialEq)]
-struct Point {
-    x: i32,
-    y: i32,
-}
-
 pub struct Guess {
     value: i32,
 }
@@ -57,6 +39,24 @@ mod tests {
     use super::*;
     use std::thread;
     use std::time::Duration;
+
+    #[derive(Debug)]
+    struct Rectangle {
+        width: u32,
+        height: u32,
+    }
+
+    impl Rectangle {
+        fn can_hold(&self, other: &Rectangle) -> bool {
+            self.width > other.width && self.height > other.height
+        }
+    }
+
+    #[derive(Debug, PartialEq)]
+    struct Point {
+        x: i32,
+        y: i32,
+    }
 
     fn prints_and_returns_10(value: i32) -> i32 {
         println!("I got the value {value}");
