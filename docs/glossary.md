@@ -261,3 +261,21 @@ Tests that access shared mutable resources may encounter race conditions when ex
 A test that sometimes passes and sometimes fails without a relevant change to the code being tested.
 
 Flaky tests may result from race conditions, shared state, timing dependencies, or external resources.
+
+## Integration Test
+
+A test that verifies how a library behaves when accessed from outside its own crate.
+
+In Rust, integration tests are commonly placed in the top-level `tests/` directory. Each integration test file is compiled as a separate crate and tests the library through its public API.
+
+## Public API
+
+The set of functions, types, methods, and other items that a library makes accessible to external crates.
+
+In Rust, items must be publicly accessible through their module paths to be used from outside the crate. Integration tests use the public API rather than accessing private implementation details directly.
+
+## Conditional Compilation
+
+The process of including or excluding code during compilation based on configuration conditions.
+
+Rust uses the `#[cfg(...)]` attribute for conditional compilation. For example, `#[cfg(test)]` includes unit test modules when compiling the crate for testing and excludes them from normal builds.

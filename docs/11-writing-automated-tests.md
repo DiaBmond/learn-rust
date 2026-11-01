@@ -654,4 +654,391 @@ The intentionally failing exercises are expected to fail when explicitly execute
 
 ## 11.3 Test Organization
 
-*To be added.*
+Rust organizes automated tests into two main categories: **unit tests** and **integration tests**.
+
+Unit tests focus on individual parts of a program and can test private implementation details. Integration tests exercise a library through its public API, similar to how external users interact with it.
+
+Both are important because individual components may work correctly on their own but fail when used together.
+
+### Unit Tests
+
+Unit tests verify small units of code in isolation to help identify where unexpected behavior occurs.
+
+In Rust, unit tests are commonly placed in the same source file as the code they test, inside a module named `tests`.
+
+```rust
+pub fn add(left: u64, right: u64) -> u64 {
+    left + right
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn addition_works() {
+        assert_eq!(add(2, 2), 4);
+    }
+}
+```
+
+This structure keeps tests close to their implementations and makes them easier to maintain.
+
+#### The `tests` Module and `#[cfg(test)]`
+
+The `#[cfg(test)]` attribute enables **conditional compilation**.
+
+It tells Rust to include the annotated module when compiling the crate for unit testing.
+
+```rust
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn addition_works() {
+        assert_eq!(add(2, 2), 4);
+    }
+}
+```
+
+The behavior differs depending on the Cargo command:
+
+- `cargo build` compiles the library without its unit test module.
+- `cargo build --release` also excludes the unit test module.
+- `cargo test` compiles the unit test module and runs its test functions.
+
+This reduces unnecessary compilation work and prevents unit test code from being included in normal library builds.
+
+The `#[cfg(test)]` attribute applies to the entire module, including helper functions that do not have the `#[test]` attribute.
+
+```rust
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn expected_sum() -> u64 {
+        4
+    }
+
+    #[test]
+    fn addition_works() {
+        assert_eq!(add(2, 2), expected_sum());
+    }
+}
+```
+
+The `expected_sum` function is a test helper rather than a test function. It is compiled with the test module but is not executed independently by the test harness.
+
+The attributes serve different purposes:
+
+- `#[cfg(test)]` controls whether code is compiled.
+- `#[test]` marks a function as a test.
+- `#[ignore]` skips a discovered test during normal execution.
+
+#### Testing Private Functions
+
+Rust allows unit tests to access private items defined in their ancestor modules.
+
+Consider a public function that uses a private helper:
+
+```rust
+pub fn add_two(value: u64) -> u64 {
+    internal_adder(value, 2)
+}
+
+fn internal_adder(left: u64, right: u64) -> u64 {
+    left + right
+}
+```
+
+The `add_two` function is public, while `internal_adder` is private because it does not have the `pub` keyword.
+
+A unit test in a child module can still call the private function:
+
+```rust
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn internal() {
+        let result = internal_adder(2, 2);
+
+        assert_eq!(result, 4);
+    }
+}
+```
+
+This works because:
+
+- The `tests` module is a child of the module containing `internal_adder`.
+- Rust allows child modules to access private items from their ancestor modules.
+- `use super::*;` brings items from the parent module into scope.
+
+Testing private functions directly is optional. Some developers prefer testing internal logic independently, while others prefer testing behavior through the public API to avoid coupling tests to implementation details.
+
+Rust supports both approaches.
+
+### Integration Tests
+
+Integration tests verify how a library behaves when accessed from outside its own crate.
+
+They use the library's public API and cannot directly access private functions or types.
+
+This makes integration tests useful for checking that different components work together correctly.
+
+#### The `tests` Directory
+
+Integration tests are placed in a `tests` directory at the root of the Cargo package, alongside `src` and `Cargo.toml`.
+
+```text
+18_automated_test/
+├── Cargo.toml
+├── Cargo.lock
+├── src/
+│   └── lib.rs
+└── tests/
+    └── integration_test.rs
+```
+
+Cargo recognizes this directory automatically.
+
+Each Rust file directly inside `tests/` is compiled as a separate integration test crate.
+
+For example, create `tests/integration_test.rs`:
+
+```rust
+use your_crate_name::add_two;
+
+#[test]
+fn it_adds_two() {
+    let result = add_two(2);
+
+    assert_eq!(result, 4);
+}
+```
+
+Replace `your_crate_name` with the actual library crate name from `Cargo.toml`.
+
+For a package named `my-library`, the default Rust crate name is `my_library`, unless a different library name is configured.
+
+Unlike unit tests, integration tests import the library using its crate name rather than `use super::*;`.
+
+They also do not need `#[cfg(test)]` because Cargo recognizes files in the `tests/` directory as integration test targets.
+
+Only public items can be imported from the library. For example, the integration test can call `add_two`, but it cannot directly call the private `internal_adder` function.
+
+#### Running Integration Tests
+
+Run the complete test suite:
+
+```bash
+cargo test
+```
+
+For a library package containing unit tests, integration tests, and documentation tests, the output is organized into separate sections.
+
+```text
+Running unittests src/lib.rs
+...
+test result: ok. ...
+
+Running tests/integration_test.rs
+...
+test result: ok. ...
+
+Doc-tests your_crate_name
+...
+test result: ok. ...
+```
+
+Each integration test file has its own test executable and result summary.
+
+If a test target fails, Cargo normally stops before running subsequent test targets. Use `--no-fail-fast` to continue running other test targets after a failure:
+
+```bash
+cargo test --no-fail-fast
+```
+
+To run a specific test function by name:
+
+```bash
+cargo test it_adds_two
+```
+
+To run only the tests defined in `tests/integration_test.rs`:
+
+```bash
+cargo test --test integration_test
+```
+
+The `--test` option selects an integration test target by name.
+
+This differs from a name filter, which selects individual test functions based on matching names.
+
+#### Submodules in Integration Tests
+
+As integration tests grow, multiple test files may need shared helper functions.
+
+A common example is a `setup` function that prepares test data or initializes resources.
+
+However, creating a helper file directly inside `tests/` has an unexpected consequence:
+
+```text
+tests/
+├── common.rs
+└── integration_test.rs
+```
+
+Cargo treats `tests/common.rs` as another integration test crate.
+
+Even if the file contains no test functions, its output includes a separate section:
+
+```text
+Running tests/common.rs
+
+running 0 tests
+```
+
+To share helper code without creating an additional integration test target, place it in a subdirectory:
+
+```text
+tests/
+├── common/
+│   └── mod.rs
+└── integration_test.rs
+```
+
+In `tests/common/mod.rs`:
+
+```rust
+pub fn setup() {
+    println!("Setting up integration test");
+}
+```
+
+Then declare and use the module in `tests/integration_test.rs`:
+
+```rust
+use your_crate_name::add_two;
+
+mod common;
+
+#[test]
+fn it_adds_two() {
+    common::setup();
+
+    let result = add_two(2);
+
+    assert_eq!(result, 4);
+}
+```
+
+The `mod common;` declaration loads the module from `tests/common/mod.rs`.
+
+The `common::setup()` function can then be called from the integration test.
+
+Because `common/mod.rs` is not a top-level integration test file, Cargo does not compile it as a separate integration test target.
+
+Other integration test files can also declare `mod common;` to reuse the same helper module.
+
+To display the output produced by `setup`:
+
+```bash
+cargo test --test integration_test -- --nocapture
+```
+
+The `--nocapture` option disables output capturing, allowing the helper's `println!` output to appear during test execution.
+
+### Integration Tests for Binary Crates
+
+A project containing only `src/main.rs` is a binary-only package.
+
+Integration tests cannot import functions from `src/main.rs` using a library-style `use` statement because the binary crate does not expose a library API.
+
+For applications with significant reusable logic, Rust commonly uses both a binary crate and a library crate:
+
+```text
+my_project/
+├── Cargo.toml
+├── src/
+│   ├── main.rs
+│   └── lib.rs
+└── tests/
+    └── integration_test.rs
+```
+
+In this structure:
+
+- `src/lib.rs` contains the main application logic and public API.
+- `src/main.rs` contains the executable entry point and calls the library.
+- `tests/integration_test.rs` tests the library through its public API.
+
+This approach makes application logic easier to test independently from the executable entry point.
+
+Binary programs can also be tested by launching the executable and checking its behavior, but functions defined only in `main.rs` cannot be imported as library functions.
+
+### Running the Exercises
+
+Run all unit, integration, and documentation tests:
+
+```bash
+cargo test
+```
+
+Run only the private function unit test:
+
+```bash
+cargo test internal
+```
+
+Run the integration test by function name:
+
+```bash
+cargo test it_adds_two
+```
+
+Run all tests in the integration test file:
+
+```bash
+cargo test --test integration_test
+```
+
+Run the integration test with output capturing disabled:
+
+```bash
+cargo test --test integration_test -- --nocapture
+```
+
+Continue running other test targets even if one fails:
+
+```bash
+cargo test --no-fail-fast
+```
+
+Check formatting and run the complete test suite before committing:
+
+```bash
+cargo fmt --check
+cargo test
+```
+
+The intentionally failing tests marked with `#[ignore]` remain excluded from normal test runs.
+
+### Key Takeaways
+
+- Rust organizes tests into unit tests and integration tests.
+- Unit tests focus on individual components and are commonly placed alongside their implementations.
+- `#[cfg(test)]` uses conditional compilation to exclude unit test code from normal builds.
+- Test helper functions inside a `#[cfg(test)]` module are also conditionally compiled.
+- Unit tests can access private items in ancestor modules.
+- Integration tests are placed in the top-level `tests/` directory.
+- Each top-level integration test file is compiled as a separate crate.
+- Integration tests interact with a library through its public API.
+- Integration tests do not need the `#[cfg(test)]` attribute.
+- `cargo test --test name` runs a specific integration test target.
+- Shared integration test helpers can be organized using `tests/common/mod.rs`.
+- Binary-only crates cannot expose functions from `main.rs` for direct library-style imports.
+- Separating application logic into `src/lib.rs` makes it easier to test through integration tests.
+- Unit tests and integration tests complement each other by verifying both individual behavior and interactions between components.
