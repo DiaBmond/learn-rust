@@ -48,11 +48,22 @@ impl Guess {
     }
 }
 
+fn prints_and_returns_10(value: i32) -> i32 {
+    println!("I got the value {value}");
+    10
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::thread;
+    use std::time::Duration;
 
-    // 1. Basic assertions
+    // ============================================================
+    // Chapter 11.1: How to Write Tests
+    // ============================================================
+
+    // Basic assertions
 
     #[test]
     fn addition_works() {
@@ -72,7 +83,7 @@ mod tests {
         assert_ne!(result, original);
     }
 
-    // 2. Boolean assertions with Rectangle
+    // Boolean assertions
 
     #[test]
     fn larger_can_hold_smaller() {
@@ -116,7 +127,7 @@ mod tests {
         assert!(!first.can_hold(&second));
     }
 
-    // 3. Equality with custom types
+    // Equality with custom types
 
     #[test]
     fn points_are_equal() {
@@ -134,7 +145,7 @@ mod tests {
         assert_ne!(first, second);
     }
 
-    // 4. Custom failure messages
+    // Custom failure messages
 
     #[test]
     fn greeting_contains_name() {
@@ -147,7 +158,7 @@ mod tests {
         );
     }
 
-    // 5. Testing expected panics
+    // Expected panics
 
     #[test]
     #[should_panic]
@@ -176,7 +187,7 @@ mod tests {
         assert_eq!(maximum.value(), 100);
     }
 
-    // 6. Tests returning Result<T, E>
+    // Tests returning Result<T, E>
 
     #[test]
     fn addition_returns_ok() -> Result<(), String> {
@@ -208,7 +219,82 @@ mod tests {
         );
     }
 
-    // 7. Intentional failures for experimentation
+    // ============================================================
+    // Chapter 11.2: Controlling How Tests Are Run
+    // ============================================================
+
+    // Capturing and displaying test output
+
+    #[test]
+    fn demo_output_capture() {
+        println!("Starting the addition test");
+
+        let result = add(2, 2);
+
+        println!("Addition result: {result}");
+
+        assert_eq!(result, 4);
+    }
+
+    #[test]
+    fn demo_prints_and_returns_10_pass() {
+        let value = prints_and_returns_10(4);
+
+        assert_eq!(value, 10);
+    }
+
+    // Parallel and sequential execution
+
+    #[test]
+    fn demo_parallel_task_a() {
+        println!("Task A: started");
+
+        thread::sleep(Duration::from_millis(200));
+
+        println!("Task A: finished");
+
+        assert_eq!(add(2, 2), 4);
+    }
+
+    #[test]
+    fn demo_parallel_task_b() {
+        println!("Task B: started");
+
+        thread::sleep(Duration::from_millis(200));
+
+        println!("Task B: finished");
+
+        assert_eq!(add_two(2), 4);
+    }
+
+    // Filtering tests by name
+
+    #[test]
+    fn add_two_and_two() {
+        let result = add_two(2);
+
+        assert_eq!(result, 4);
+    }
+
+    #[test]
+    fn add_three_and_two() {
+        let result = add_two(3);
+
+        assert_eq!(result, 5);
+    }
+
+    #[test]
+    fn one_hundred() {
+        let result = add_two(100);
+
+        assert_eq!(result, 102);
+    }
+
+    // ============================================================
+    // Intentional Failures: Ignored by Default
+    // ============================================================
+
+    // Assertion failures
 
     #[test]
     #[ignore = "Practice reading assert_eq! failure output"]
@@ -242,6 +328,8 @@ mod tests {
         );
     }
 
+    // Expected panic failures
+
     #[test]
     #[should_panic(expected = "less than or equal to 100")]
     #[ignore = "Practice reading unexpected panic messages"]
@@ -256,6 +344,8 @@ mod tests {
         Guess::new(50);
     }
 
+    // Result-based failures
+
     #[test]
     #[ignore = "Practice returning Err from a test"]
     fn demo_result_error() -> Result<(), String> {
@@ -268,5 +358,15 @@ mod tests {
         let _: i32 = "hello".parse()?;
 
         Ok(())
+    }
+
+    // Output capture failure
+
+    #[test]
+    #[ignore = "Practice inspecting captured output from a failing test"]
+    fn demo_prints_and_returns_10_fail() {
+        let value = prints_and_returns_10(8);
+
+        assert_eq!(value, 5);
     }
 }
