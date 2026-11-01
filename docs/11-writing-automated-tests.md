@@ -262,7 +262,395 @@ The intentionally failing tests are expected to fail when executed.
 
 ## 11.2 Controlling How Tests Are Run
 
-*To be added.*
+The `cargo test` command compiles a crate in test mode and runs the resulting test binary.
+
+By default, Rust runs tests in parallel and captures their standard output to keep test results readable.
+
+Test execution can be customized using command-line arguments.
+
+Some arguments belong to Cargo, while others belong to the test binary. The `--` separator distinguishes them.
+
+```bash
+cargo test [cargo-options] -- [test-options]
+```
+
+For example:
+
+```bash
+cargo test --release -- --test-threads=1
+```
+
+- `--release` is a Cargo option that uses the release profile.
+- `--` separates Cargo arguments from test binary arguments.
+- `--test-threads=1` is a test harness option that runs tests sequentially.
+
+The available options can be inspected with:
+
+```bash
+cargo test --help
+cargo test -- --help
+```
+
+The first command displays Cargo options, while the second displays test binary options.
+
+### Running Tests in Parallel or Consecutively
+
+By default, Rust runs multiple tests in parallel using threads.
+
+Parallel execution can reduce testing time, but tests should not depend on one another or interfere with shared resources.
+
+Shared resources may include:
+
+- Files on disk.
+- Environment variables.
+- The current working directory.
+- Shared mutable state.
+
+For example, two tests that write different values to the same file may interfere with each other. One test could overwrite the file before another test reads it, causing an unexpected failure.
+
+This behavior can produce a race condition or a flaky test.
+
+To run tests sequentially, set the number of test threads to `1`:
+
+```bash
+cargo test -- --test-threads=1
+```
+
+To use two test threads:
+
+```bash
+cargo test -- --test-threads=2
+```
+
+The exercises include two tests that simulate work using `thread::sleep`:
+
+```rust
+#[test]
+fn demo_parallel_task_a() {
+    println!("Task A: started");
+
+    thread::sleep(Duration::from_millis(200));
+
+    println!("Task A: finished");
+
+    assert_eq!(add(2, 2), 4);
+}
+
+#[test]
+fn demo_parallel_task_b() {
+    println!("Task B: started");
+
+    thread::sleep(Duration::from_millis(200));
+
+    println!("Task B: finished");
+
+    assert_eq!(add_two(2), 4);
+}
+```
+
+Run both tests with two test threads:
+
+```bash
+cargo test demo_parallel_task -- --test-threads=2 --nocapture
+```
+
+Run them sequentially:
+
+```bash
+cargo test demo_parallel_task -- --test-threads=1 --nocapture
+```
+
+With two threads, the tests may execute at the same time. With one thread, the test harness executes one test at a time.
+
+Sequential execution does not guarantee a particular test order. It also does not automatically prevent problems caused by shared state that is not properly reset.
+
+Tests should ideally be independent and use separate resources.
+
+### Showing Function Output
+
+By default, Rust captures standard output produced by tests.
+
+If a test passes, its output from `println!` is hidden. If a test fails, the captured output is displayed with the failure details.
+
+The exercises use a function that prints its argument and always returns `10`:
+
+```rust
+fn prints_and_returns_10(value: i32) -> i32 {
+    println!("I got the value {value}");
+    10
+}
+```
+
+Two tests demonstrate successful and failing assertions:
+
+```rust
+#[test]
+fn demo_prints_and_returns_10_pass() {
+    let value = prints_and_returns_10(4);
+
+    assert_eq!(value, 10);
+}
+
+#[test]
+#[ignore = "Practice inspecting captured output from a failing test"]
+fn demo_prints_and_returns_10_fail() {
+    let value = prints_and_returns_10(8);
+
+    assert_eq!(value, 5);
+}
+```
+
+The passing test prints `I got the value 4`, but the message is hidden during a normal test run.
+
+To display captured output from successful tests, use `--show-output`:
+
+```bash
+cargo test demo_prints_and_returns_10 -- --show-output
+```
+
+The test harness displays the captured message in a `successes` section.
+
+To run both tests, including the intentionally failing test:
+
+```bash
+cargo test demo_prints_and_returns_10 -- --include-ignored --show-output
+```
+
+The failing test displays `I got the value 8` along with the assertion failure because the function returns `10`, not `5`.
+
+The `--nocapture` option disables output capturing:
+
+```bash
+cargo test demo_prints_and_returns_10 -- --nocapture
+```
+
+Unlike `--show-output`, which displays captured output in the test summary, `--nocapture` allows output to appear during test execution.
+
+When several tests print concurrently, their output may be interleaved. Running tests sequentially can make the output easier to follow.
+
+```bash
+cargo test -- --test-threads=1 --nocapture
+```
+
+### Running a Subset of Tests by Name
+
+A large test suite may take a long time to execute.
+
+Cargo allows tests to be selected by passing a name filter to `cargo test`.
+
+The exercises include three tests for `add_two`:
+
+```rust
+#[test]
+fn add_two_and_two() {
+    let result = add_two(2);
+
+    assert_eq!(result, 4);
+}
+
+#[test]
+fn add_three_and_two() {
+    let result = add_two(3);
+
+    assert_eq!(result, 5);
+}
+
+#[test]
+fn one_hundred() {
+    let result = add_two(100);
+
+    assert_eq!(result, 102);
+}
+```
+
+#### Running Single Tests
+
+To run the test named `one_hundred`:
+
+```bash
+cargo test one_hundred
+```
+
+Only tests matching the provided filter are executed.
+
+Other tests are reported as `filtered out`.
+
+A name filter is not a list of separate test names. To run several tests, use a shared substring or module path.
+
+#### Filtering to Run Multiple Tests
+
+The test filter matches a substring of the test's full name.
+
+For example:
+
+```bash
+cargo test add
+```
+
+This command runs tests whose names contain `add`.
+
+In the exercises, matching tests include:
+
+- `addition_works`
+- `add_two_returns_expected_value`
+- `add_two_changes_original_value`
+- `add_two_and_two`
+- `add_three_and_two`
+
+The `one_hundred` test does not match `add`, even though it calls the `add_two` function.
+
+Filtering depends on the test name, not on which functions the test calls.
+
+Module paths are also part of test names.
+
+For example, a test defined inside `mod tests` has a full name such as:
+
+```text
+tests::addition_works
+```
+
+Tests can therefore be filtered by module path:
+
+```bash
+cargo test tests::
+```
+
+To list available tests without executing them:
+
+```bash
+cargo test -- --list
+```
+
+### Ignoring Tests Unless Specifically Requested
+
+Some tests may be slow, expensive, or intentionally designed to fail.
+
+The `#[ignore]` attribute excludes a test from normal test execution.
+
+```rust
+#[test]
+#[ignore = "Practice reading assert_eq! failure output"]
+fn demo_assert_eq_failure() {
+    assert_eq!(add_two(2), 5);
+}
+```
+
+The optional string explains why the test is ignored.
+
+An ignored test is skipped rather than passed or failed.
+
+Run all non-ignored tests:
+
+```bash
+cargo test
+```
+
+Run only ignored tests:
+
+```bash
+cargo test -- --ignored
+```
+
+Run all tests, including ignored tests:
+
+```bash
+cargo test -- --include-ignored
+```
+
+To execute one specific ignored test:
+
+```bash
+cargo test demo_assert_eq_failure -- --ignored
+```
+
+The exercises contain several intentionally failing tests marked with `#[ignore]`.
+
+Running all ignored tests or including ignored tests in the normal suite will therefore produce expected failures.
+
+The distinction between the main test result categories is:
+
+- `passed`: The test executed successfully.
+- `failed`: The test executed but did not satisfy its expected behavior.
+- `ignored`: The test was skipped because it was marked as ignored.
+- `filtered out`: The test did not match the selected name filter or other selection criteria.
+
+### Running the Exercises
+
+Run the normal test suite:
+
+```bash
+cargo test
+```
+
+Run tests sequentially:
+
+```bash
+cargo test -- --test-threads=1
+```
+
+Compare parallel and sequential execution:
+
+```bash
+cargo test demo_parallel_task -- --test-threads=2 --nocapture
+cargo test demo_parallel_task -- --test-threads=1 --nocapture
+```
+
+Display captured output from passing tests:
+
+```bash
+cargo test demo_output_capture -- --show-output
+cargo test demo_prints_and_returns_10 -- --show-output
+```
+
+Run the passing and intentionally failing output tests:
+
+```bash
+cargo test demo_prints_and_returns_10 -- --include-ignored --show-output
+```
+
+Run one test by name:
+
+```bash
+cargo test one_hundred
+```
+
+Filter tests using a substring:
+
+```bash
+cargo test add
+```
+
+List available tests:
+
+```bash
+cargo test -- --list
+```
+
+Run a specific ignored test:
+
+```bash
+cargo test demo_assert_eq_failure -- --ignored
+```
+
+The intentionally failing exercises are expected to fail when explicitly executed.
+
+### Key Takeaways
+
+- `cargo test` compiles and executes Rust tests.
+- The `--` separator distinguishes Cargo options from test binary options.
+- Tests run in parallel by default.
+- `--test-threads=1` runs tests sequentially.
+- Tests should not depend on execution order or shared mutable state.
+- Rust captures standard output from tests by default.
+- `--show-output` displays captured output from passing tests.
+- `--nocapture` disables output capturing.
+- `cargo test name` filters tests by their names.
+- A substring can match multiple test names.
+- Module paths are included in full test names.
+- `#[ignore]` excludes tests from normal test runs.
+- `--ignored` runs only ignored tests.
+- `--include-ignored` runs both normal and ignored tests.
+- Independent tests are more reliable and easier to maintain.
 
 ## 11.3 Test Organization
 
