@@ -237,3 +237,27 @@ In Rust, the `?` operator propagates an `Err` value and allows a result-based te
 A bug introduced by a code change that causes previously working behavior to stop working correctly.
 
 Automated tests help detect regressions when implementations are modified.
+
+## Test Filtering
+
+The process of selecting which tests to run based on their names or module paths.
+
+In Rust, `cargo test name` runs tests whose full names contain the specified substring.
+
+## Output Capture
+
+The process of collecting output produced during test execution instead of displaying it immediately.
+
+Rust captures test output by default. The `--show-output` option displays captured output from successful tests, while `--nocapture` disables output capturing.
+
+## Race Condition
+
+A situation in which the behavior of a program depends on the timing or order of concurrent operations.
+
+Tests that access shared mutable resources may encounter race conditions when executed in parallel.
+
+## Flaky Test
+
+A test that sometimes passes and sometimes fails without a relevant change to the code being tested.
+
+Flaky tests may result from race conditions, shared state, timing dependencies, or external resources.
