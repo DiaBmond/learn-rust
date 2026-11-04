@@ -279,3 +279,59 @@ In Rust, items must be publicly accessible through their module paths to be used
 The process of including or excluding code during compilation based on configuration conditions.
 
 Rust uses the `#[cfg(...)]` attribute for conditional compilation. For example, `#[cfg(test)]` includes unit test modules when compiling the crate for testing and excludes them from normal builds.
+
+## Command-Line Argument
+
+A value passed to a program when it is started from the command line.
+
+In Rust, `std::env::args()` provides an iterator over command-line arguments, including the executable path as the first argument.
+
+## Environment Variable
+
+A named value provided through a process's environment that can be used to configure program behavior.
+
+In Rust, `std::env::var()` reads an environment variable and returns a `Result` indicating whether the value was successfully retrieved.
+
+## Standard Output (stdout)
+
+The standard stream used by a program to display normal output.
+
+In Rust, the `println!` macro writes to standard output. This output can be redirected to a file or another program.
+
+## Standard Error (stderr)
+
+The standard stream used by a program to display error messages and diagnostic information.
+
+In Rust, the `eprintln!` macro writes to standard error, keeping error messages separate from normal program output.
+
+## Exit Status
+
+A value returned by a program to the operating system when the program terminates.
+
+By convention, an exit status of `0` indicates success, while a nonzero value indicates failure.
+
+In Rust, `std::process::exit()` terminates a process with a specified exit status.
+
+## Iterator
+
+A value that produces a sequence of items one at a time.
+
+In Rust, iterators implement the `Iterator` trait. Methods such as `collect()` can consume an iterator and gather its items into a collection.
+
+## Closure
+
+An anonymous function-like expression that can capture values from its surrounding environment.
+
+Closures are commonly used as arguments to methods such as `unwrap_or_else()` to define behavior that should execute under specific conditions.
+
+## Trait Object
+
+A value accessed through a trait interface that allows different concrete types implementing the same trait to be handled uniformly.
+
+In Rust, trait objects use the `dyn` keyword, such as `Box<dyn Error>`, and support dynamic dispatch.
+
+## Test-Driven Development (TDD)
+
+A software development approach in which tests are written before implementing the functionality they verify.
+
+A typical TDD cycle involves writing a failing test, implementing enough code to make it pass, and then refactoring while keeping the tests passing.
