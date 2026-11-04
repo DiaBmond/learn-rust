@@ -4,3 +4,4 @@ target/
 .vscode/
 .idea/
 01_hello_world/main
+mini_project_04_minigrep/output.txt
