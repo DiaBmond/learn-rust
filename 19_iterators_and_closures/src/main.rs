@@ -50,3 +50,30 @@ fn main() {
         user_pref2, giveaway2
     );
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn giveaway_with_preference() {
+        let store = Inventory {
+            shirts: vec![ShirtColor::Blue, ShirtColor::Red, ShirtColor::Blue],
+        };
+
+        let user_preference = Some(ShirtColor::Red);
+
+        assert_eq!(store.giveaway(user_preference), ShirtColor::Red);
+    }
+
+    #[test]
+    fn giveaway_without_preference() {
+        let store = Inventory {
+            shirts: vec![ShirtColor::Blue, ShirtColor::Red, ShirtColor::Blue],
+        };
+
+        let user_preference = None;
+
+        assert_eq!(store.giveaway(user_preference), ShirtColor::Blue);
+    }
+}
