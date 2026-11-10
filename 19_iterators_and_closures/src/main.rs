@@ -101,4 +101,24 @@ mod tests {
 
         assert_eq!(store.giveaway(user_preference), ShirtColor::Blue);
     }
+
+    #[test]
+    fn closure_add_one_variants() {
+        let add_one_v2 = |x: u32| -> u32 { x + 1 };
+        let add_one_v3 = |x| x + 1;
+        let add_one_v4 = |x| x + 1;
+
+        assert_eq!(add_one_v2(5_u32), 6);
+        assert_eq!(add_one_v3(5_u32), 6);
+        assert_eq!(add_one_v4(5_u32), 6);
+    }
+
+    #[test]
+    fn closure_infers_string_type() {
+        let example_closure = |x| x;
+
+        let result = example_closure(String::from("hello"));
+
+        assert_eq!(result, "hello");
+    }
 }
