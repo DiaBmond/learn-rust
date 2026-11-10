@@ -162,4 +162,34 @@ mod tests {
 
         assert_eq!(result, "hello");
     }
+    #[test]
+    fn closure_captures_immutable_reference() {
+        let list = vec![1, 2, 3];
+
+        let only_borrows = || list.len();
+
+        assert_eq!(only_borrows(), 3);
+        assert_eq!(list.len(), 3);
+    }
+
+    #[test]
+    fn closure_captures_mutable_reference() {
+        let mut list = vec![1, 2, 3];
+
+        let mut borrows_mutably = || list.push(7);
+
+        borrows_mutably();
+
+        assert_eq!(list, vec![1, 2, 3, 7]);
+    }
+    #[test]
+    fn closure_moves_ownership_into_thread() {
+        let list = vec![1, 2, 3];
+
+        let handle = thread::spawn(move || list.len());
+
+        let result = handle.join().unwrap();
+
+        assert_eq!(result, 3);
+    }
 }
