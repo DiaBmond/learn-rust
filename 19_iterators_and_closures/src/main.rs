@@ -31,6 +31,30 @@ impl Inventory {
     }
 }
 
+fn closure_type_inference_demo() {
+    // Explicit type annotations
+    let add_one_v2 = |x: u32| -> u32 { x + 1 };
+
+    // Inferred parameter and return types with a block body
+    let add_one_v3 = |x| x + 1;
+
+    // Single-expression closure without braces
+    let add_one_v4 = |x| x + 1;
+
+    println!("v2: {}", add_one_v2(5_u32));
+    println!("v3: {}", add_one_v3(5_u32));
+    println!("v4: {}", add_one_v4(5_u32));
+
+    // The argument type is inferred as String.
+    let example_closure = |x| x;
+
+    let s = example_closure(String::from("hello"));
+    println!("String: {s}");
+
+    // Uncomment this line to observe error E0308.
+    // let n = example_closure(5);
+}
+
 fn main() {
     let store = Inventory {
         shirts: vec![ShirtColor::Blue, ShirtColor::Red, ShirtColor::Blue],
@@ -49,6 +73,7 @@ fn main() {
         "The user with preference {:?} gets {:?}",
         user_pref2, giveaway2
     );
+    closure_type_inference_demo();
 }
 
 #[cfg(test)]
