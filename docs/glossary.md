@@ -335,3 +335,65 @@ In Rust, trait objects use the `dyn` keyword, such as `Box<dyn Error>`, and supp
 A software development approach in which tests are written before implementing the functionality they verify.
 
 A typical TDD cycle involves writing a failing test, implementing enough code to make it pass, and then refactoring while keeping the tests passing.
+
+## Closure Capture
+
+The process by which a closure accesses variables from its surrounding environment.
+
+Closures can capture values through immutable borrowing, mutable borrowing, or by value.
+
+## `move` Keyword
+
+A keyword that forces a closure to capture values by value.
+
+Non-`Copy` values are moved into the closure, while `Copy` values are copied. Using `move` does not necessarily make a closure callable only once.
+
+## `Fn` Trait
+
+A closure trait for closures that can be called through a shared reference without consuming or mutating their captured values.
+
+## `FnMut` Trait
+
+A closure trait for closures that can be called through a mutable reference and may modify captured values.
+
+## `FnOnce` Trait
+
+A closure trait for closures that can be called at least once and may consume captured values.
+
+Every closure implements `FnOnce`.
+
+## Associated Type
+
+A type declared within a trait that implementors must specify.
+
+For example, `Iterator::Item` represents the type of values produced by an iterator.
+
+## Lazy Evaluation
+
+A strategy that delays computation until its result is needed.
+
+Rust iterator adapters such as `map()` and `filter()` are lazy and do not process items until the iterator is consumed.
+
+## Iterator Adapter
+
+A method that transforms an iterator into another iterator without immediately processing its items.
+
+Examples include `map()` and `filter()`.
+
+## Consuming Iterator Method
+
+A method that drives iteration to produce a result, typically taking ownership of the iterator.
+
+Examples include `collect()` and `sum()`.
+
+## `IntoIterator` Trait
+
+A trait for types that can be converted into iterators.
+
+Rust `for` loops automatically use `IntoIterator` to iterate over values.
+
+## Zero-Cost Abstraction
+
+An abstraction designed to provide convenient, high-level code without inherent runtime overhead.
+
+Rust iterators and closures can often be optimized to perform similarly to equivalent low-level code.

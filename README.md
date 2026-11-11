@@ -6,11 +6,12 @@ This repository contains my Rust exercises and learning notes.
 
 ## Progress
 
-- **Completed:** Chapter 10.2 — Traits
-- **Next:** Chapter 10.3 — Validating References with Lifetimes
+- **Completed:** Chapter 13 — Functional Language Features: Closures and Iterators
+- **Next:** Chapter 14 — More About Cargo and Crates.io
 
 ## Learning Notes
 
+- [Documentation Index](docs/README.md)
 - [Glossary](docs/glossary.md)
 - [Chapter 3: Common Programming Concepts](docs/03-common-concepts.md)
 - [Chapter 4: Understanding Ownership](docs/04-ownership.md)
@@ -21,6 +22,8 @@ This repository contains my Rust exercises and learning notes.
 - [Chapter 9: Error Handling](docs/09-error-handling.md)
 - [Chapter 10: Generics, Traits, and Lifetimes](docs/10-generics-traits-lifetimes.md)
 - [Chapter 11: Writing Automated Tests](docs/11-writing-automated-tests.md)
+- [Chapter 12: An I/O Project](docs/12-an-io-project.md)
+- [Chapter 13: Functional Language Features](docs/13-functional-language-features.md)
 - [Notes & Issues](docs/notes-and-issues.md)
 
 ## Exercises
