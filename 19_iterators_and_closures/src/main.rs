@@ -1,5 +1,6 @@
 mod closures;
 mod inventory;
+mod iterators;
 mod rectangle;
 
 fn main() {
@@ -11,4 +12,5 @@ fn main() {
     closures::move_capture_demo();
 
     rectangle::sort_by_key_demo();
+    iterators::run_demo();
 }
