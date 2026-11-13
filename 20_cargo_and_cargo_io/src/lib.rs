@@ -1,3 +1,8 @@
+//! # Cargo and Cargo.io
+//!
+//! `cargo_and_cargo_io` is a collection of utilities to make performing
+//! certain calculations more convenient.
+
 /// Adds one to the number given.
 ///
 /// # Examples
