@@ -6,8 +6,8 @@ This repository contains my Rust exercises and learning notes.
 
 ## Progress
 
-- **Completed:** Chapter 13 — Functional Language Features: Closures and Iterators
-- **Next:** Chapter 14 — More About Cargo and Crates.io
+- **Completed:** Chapter 14 — More About Cargo and Crates.io
+- **Next:** Chapter 15 — Smart Pointers
 
 ## Learning Notes
 
@@ -24,6 +24,7 @@ This repository contains my Rust exercises and learning notes.
 - [Chapter 11: Writing Automated Tests](docs/11-writing-automated-tests.md)
 - [Chapter 12: An I/O Project](docs/12-an-io-project.md)
 - [Chapter 13: Functional Language Features](docs/13-functional-language-features.md)
+- [Chapter 14: More About Cargo and Crates.io](docs/14-more-about-cargo-and-crates-io.md)
 - [Notes & Issues](docs/notes-and-issues.md)
 
 ## Exercises

@@ -397,3 +397,75 @@ Rust `for` loops automatically use `IntoIterator` to iterate over values.
 An abstraction designed to provide convenient, high-level code without inherent runtime overhead.
 
 Rust iterators and closures can often be optimized to perform similarly to equivalent low-level code.
+
+## Release Profile
+
+A set of Cargo compilation settings that controls how a package is built.
+
+The `dev` profile prioritizes compilation speed, while the `release` profile prioritizes runtime performance.
+
+## Optimization Level
+
+A compiler setting that determines how aggressively code is optimized.
+
+In Cargo, the `opt-level` setting can be configured separately for different release profiles.
+
+## Documentation Comment
+
+A special Rust comment used to generate API documentation.
+
+`///` documents the following item, while `//!` documents the containing crate or module.
+
+## Documentation Test (Doc Test)
+
+A test written inside a Rust documentation code block.
+
+Cargo runs documentation tests with `cargo test` to verify that documented examples still work.
+
+## Re-export
+
+The process of exposing an existing public item through another public path using `pub use`.
+
+Re-exporting makes APIs easier to use without changing their internal module structure.
+
+## Crates.io
+
+The official Rust package registry where developers publish and share crates.
+
+## Package Metadata
+
+Information about a package defined in `Cargo.toml`, such as its name, version, description, and license.
+
+## Semantic Versioning (SemVer)
+
+A versioning convention using the `MAJOR.MINOR.PATCH` format to communicate compatibility and changes between releases.
+
+## Yanking
+
+The process of preventing new dependency resolutions from selecting a published crate version.
+
+Yanking does not delete the crate or invalidate existing lockfiles that already reference that version.
+
+## Cargo Workspace
+
+A collection of related Cargo packages that share a `Cargo.lock` file and a common `target/` directory.
+
+Each package still declares its own dependencies.
+
+## Path Dependency
+
+A dependency that refers to another local package through a filesystem path in `Cargo.toml`.
+
+For example, `add_one = { path = "../add_one" }`.
+
+## Binary Target
+
+A compilation target that produces an executable program.
+
+Binary targets can be installed locally using `cargo install`.
+
+## Custom Cargo Command
+
+An external executable named `cargo-something` that Cargo can invoke using `cargo something`.
+
+The executable must be discoverable through the system's `PATH` environment variable.
