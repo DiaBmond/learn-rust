@@ -3,6 +3,7 @@ mod deref_examples;
 mod drop_examples;
 mod rc_examples;
 mod refcell_examples;
+mod reference_cycle_examples;
 
 fn main() {
     box_examples::run();
@@ -10,4 +11,5 @@ fn main() {
     drop_examples::run();
     rc_examples::run();
     refcell_examples::run();
+    reference_cycle_examples::run();
 }
