@@ -1,3 +1,4 @@
+
 # Learn Rust
 
 I'm learning Rust by following [The Rust Programming Language](https://doc.rust-lang.org/stable/book/).
@@ -6,8 +7,8 @@ This repository contains my Rust exercises and learning notes.
 
 ## Progress
 
-- **Completed:** Chapter 14 — More About Cargo and Crates.io
-- **Next:** Chapter 15 — Smart Pointers
+- **Completed:** Chapter 15 — Smart Pointers
+- **Next:** Chapter 16 — Fearless Concurrency
 
 ## Learning Notes
 
@@ -25,6 +26,7 @@ This repository contains my Rust exercises and learning notes.
 - [Chapter 12: An I/O Project](docs/12-an-io-project.md)
 - [Chapter 13: Functional Language Features](docs/13-functional-language-features.md)
 - [Chapter 14: More About Cargo and Crates.io](docs/14-more-about-cargo-and-crates-io.md)
+- [Chapter 15: Smart Pointers](docs/15-smart-pointers.md)
 - [Notes & Issues](docs/notes-and-issues.md)
 
 ## Exercises

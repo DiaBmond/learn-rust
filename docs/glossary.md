@@ -469,3 +469,184 @@ Binary targets can be installed locally using `cargo install`.
 An external executable named `cargo-something` that Cargo can invoke using `cargo something`.
 
 The executable must be discoverable through the system's `PATH` environment variable.
+
+
+## Pointer
+
+A value that stores a memory address and provides access to data at that address.
+
+## Smart Pointer
+
+A data structure that behaves like a pointer while providing additional functionality, such as ownership management, reference counting, or automatic cleanup.
+
+## Heap Allocation
+
+The process of allocating memory on the heap.
+
+In Rust, `Box<T>` provides owned heap allocation.
+
+## Recursive Type
+
+A type whose definition contains a reference to itself, directly or indirectly.
+
+Recursive types require indirection, such as `Box<T>`, to have a known size at compile time.
+
+## Indirection
+
+The process of accessing data through a pointer or reference instead of storing the data directly.
+
+## `Box<T>`
+
+A smart pointer that owns a value stored on the heap.
+
+The heap-allocated value is automatically dropped when its owning box is dropped.
+
+## Dereferencing
+
+The process of accessing the value pointed to by a pointer or reference using the `*` operator.
+
+## `Deref` Trait
+
+A trait that allows a type to behave like a reference through the dereference operator.
+
+Its associated type `Target` specifies the type being dereferenced to.
+
+## `DerefMut` Trait
+
+A trait that allows mutable dereferencing of a value.
+
+It extends `Deref` to support mutable access.
+
+## Deref Coercion
+
+An automatic conversion between reference types using the `Deref` or `DerefMut` trait.
+
+For example, Rust can convert `&String` into `&str`.
+
+## `Drop` Trait
+
+A trait that defines custom cleanup behavior when a value is dropped.
+
+Rust automatically calls its `drop()` method during value destruction.
+
+## Destructor
+
+A mechanism that performs cleanup when a value is destroyed.
+
+In Rust, custom destructor behavior is defined through the `Drop` trait.
+
+## `drop()` Function
+
+A standard library function that takes ownership of a value and drops it before the end of its original scope.
+
+## Reference Counting
+
+A technique that tracks the number of owners or references associated with a value.
+
+In `Rc<T>`, the inner value is dropped when the strong reference count reaches zero.
+
+## Shared Ownership
+
+An ownership model in which multiple owners share the same value.
+
+Rust provides `Rc<T>` for shared ownership in single-threaded scenarios.
+
+## `Rc<T>`
+
+A reference-counted smart pointer that allows multiple owners of the same heap-allocated value.
+
+`Rc::clone()` creates another owner without deeply copying the inner value.
+
+## Strong Reference
+
+An owning reference that keeps a reference-counted value alive.
+
+The value is dropped when no strong references remain.
+
+## Strong Reference Count
+
+The number of strong owners of a reference-counted value.
+
+In Rust, `Rc::strong_count()` returns this count.
+
+## Interior Mutability
+
+A design pattern that allows data to be modified through a shared reference.
+
+Rust provides types such as `RefCell<T>` to support interior mutability.
+
+## `RefCell<T>`
+
+A type that enables interior mutability by enforcing borrowing rules at runtime.
+
+Violating these rules through `borrow()` or `borrow_mut()` causes a panic.
+
+## Runtime Borrow Checking
+
+The process of enforcing borrowing rules while a program is running rather than during compilation.
+
+`RefCell<T>` tracks active borrows to prevent conflicting access.
+
+## `Ref<T>`
+
+A smart pointer returned by `RefCell::borrow()` that provides immutable access to the inner value.
+
+## `RefMut<T>`
+
+A smart pointer returned by `RefCell::borrow_mut()` that provides mutable access to the inner value.
+
+## Shared Mutable Data
+
+Data that can be accessed and modified by multiple owners.
+
+In single-threaded Rust, this can be achieved using `Rc<RefCell<T>>`.
+
+## Test Double
+
+A substitute for a real dependency used during testing.
+
+Test doubles allow behavior to be verified without relying on the original implementation.
+
+## Mock Object
+
+A type of test double that records interactions during a test so that expected behavior can be verified.
+
+## Reference Cycle
+
+A situation in which values directly or indirectly reference each other in a cycle.
+
+Cycles formed entirely through strong ownership references can prevent values from being dropped.
+
+## Memory Leak
+
+A situation in which allocated memory is not released even though it is no longer needed.
+
+Rust's memory safety guarantees do not prevent all memory leaks.
+
+## Stack Overflow
+
+A condition that occurs when a program exceeds its available stack space.
+
+It can result from excessive or unbounded recursion.
+
+## `Weak<T>`
+
+A non-owning smart pointer that references a value managed by `Rc<T>`.
+
+Weak references do not prevent the inner value from being dropped.
+
+## Weak Reference Count
+
+The number of weak references associated with a reference-counted allocation.
+
+Unlike the strong count, the weak count does not determine when the inner value is dropped.
+
+## `Rc::downgrade()`
+
+An associated function that creates a `Weak<T>` reference from an `Rc<T>` without increasing the strong reference count.
+
+## `Weak::upgrade()`
+
+A method that attempts to obtain an owning `Rc<T>` from a weak reference.
+
+It returns `Some(Rc<T>)` if the inner value still exists, or `None` if it has been dropped.
